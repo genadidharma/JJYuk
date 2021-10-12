@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.JJYuk.Text3XL.Regular" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">44sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XL.Regular" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">38.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXL.Regular" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28.8sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextLG.Regular" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextBase.Regular" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">22.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextSM.Regular" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">19.6sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXS.Regular" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XS.Regular" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+
+    <style name="TextAppearance.JJYuk.Text3XL.Medium" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">44sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XL.Medium" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">38.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXL.Medium" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28.8sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextLG.Medium" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextBase.Medium" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">22.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextSM.Medium" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">19.6sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXS.Medium" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XS.Medium" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+
+    <style name="TextAppearance.JJYuk.Text3XL.Bold" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">44sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XL.Bold" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">38.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXL.Bold" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28.8sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextLG.Bold" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextBase.Bold" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">22.4sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextSM.Bold" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+        <item name="lineHeight">19.6sp</item>
+    </style>
+    <style name="TextAppearance.JJYuk.TextXS.Bold" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+    <style name="TextAppearance.JJYuk.Text2XS.Bold" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/neutral_10</item>
+    </style>
+</resources>
