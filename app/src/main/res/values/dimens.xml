@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: 11. Configure dimens for sizes -->
+<resources>
+    <!--    Apply to all components-->
+    <dimen name="lg_margin_padding">32dp</dimen>
+    <dimen name="md_margin_padding">16dp</dimen>
+    <dimen name="sm_margin_padding">8dp</dimen>
+    <dimen name="xs_margin_padding">4dp</dimen>
+    
+    <!--    Logo-->
+    <dimen name="logo_appbar_width">32dp</dimen>
+    <dimen name="logo_appbar_height">32dp</dimen>
+
+    <!--    Icon Size-->
+    <dimen name="lg_icon_size">48dp</dimen>
+    <dimen name="md_icon_size">32dp</dimen>
+    <dimen name="sm_icon_size">16dp</dimen>
+    <dimen name="xs_icon_size">12dp</dimen>
+
+    <!--    Search bar-->
+    <dimen name="search_bar_width">340dp</dimen>
+
+    <!--    Destination Card-->
+    <dimen name="card_destination_lg_width">182dp</dimen>
+    <dimen name="card_destination_lg_height">260dp</dimen>
+    <dimen name="image_card_destination_height">240dp</dimen>
+
+    <!--    Destination Detail Image-->
+    <dimen name="image_destination_detail_height">320dp</dimen>
+
+    <!--    Component Corner Radius-->
+    <dimen name="sm_component_corner_radius">4dp</dimen>
+    <dimen name="lg_component_corner_radius">8dp</dimen>
+    <dimen name="xl_component_corner_radius">16dp</dimen>
+
+</resources>
