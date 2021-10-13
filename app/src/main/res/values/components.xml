@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    Destination Card-->
+    <style name="Card.Destination" parent="Widget.MaterialComponents.CardView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/lg_component_corner_radius</item>
+        <item name="android:background">@color/neutral_10</item>
+        <item name="elevation">@dimen/card_elevation</item>
+    </style>
+
+    <!--    Destination Image for Card-->
+    <style name="Card.Destination.Image">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/lg_component_corner_radius</item>
+        <item name="android:foreground">@drawable/fg_destination_image_gradient</item>
+    </style>
+
+    <!--    Destination Video for Card-->
+    <style name="Card.Destination.Video" parent="Card.Destination.Image">
+        <item name="android:foreground">@drawable/fg_video_item</item>
+    </style>
+
+    <!--    Destination Detail Image-->
+    <style name="ShapeAppearance.Destination.Detail.Image" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="android:bottomLeftRadius">@dimen/xl_component_corner_radius</item>
+        <item name="android:bottomRightRadius">@dimen/xl_component_corner_radius</item>
+    </style>
+
+    <!--    Destination Ticket Price for Detail-->
+    <style name="TextView.Price" parent="Widget.AppCompat.TextView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/xl_component_corner_radius</item>
+        <item name="backgroundColor">@color/blue_100</item>
+        <item name="android:textAppearance">@style/TextAppearance.JJYuk.TextLG.Bold</item>
+    </style>
+
+    <!--    Destination open/close status-->
+    <style name="TextView.Status.Success" parent="Widget.AppCompat.TextView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/sm_component_corner_radius</item>
+        <item name="backgroundColor">@color/semantic_succes</item>
+        <item name="android:textAppearance">@style/TextAppearance.JJYuk.Text2XS.Medium</item>
+    </style>
+</resources>
