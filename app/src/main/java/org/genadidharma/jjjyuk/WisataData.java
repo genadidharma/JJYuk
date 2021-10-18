@@ -21,7 +21,11 @@ public class WisataData {
     };
 
     private static final String[] deskripsi={
-
+            "BNS hanya beroperasi pada malam hari. BNS menggabungkan konsep pusat perbelanjaan, permainan, olahraga, dan hiburan di dalamnya. BNS tidak hanya dapat dinikmati kalangan muda, juga untuk segala usia. Karena letaknya di dataran tinggi, pengunjung akan disuguhi oleh pemandangan alam yang gemerlapan kota Malang. ",
+            "Gunung Bromo memiliki ketinggian 2.392 Meter dari atas permukaan laut dan berada dalam empat lingkup kabupaten, yaitu Probolinggo, Pasuruan, Lumajang dan Kabupaten Malang . Gunung Bromo juga termasuk dalam satu kawasan Bromo Tengger Semeru National Park, dimana terdapat beberapa obyek wisata yang bisa dikunjungi seperti, Gunung Semeru, Gunung Tengger, Gunung Batok, beberapa danau dan Gunung Bromo sendiri.",
+            "Dinamakan Kabut Pelangi atau Coban Pelangi karena di lokasi air terjun ini sering terlihat pelangi yang diakibatkan oleh pembiasan air dan cahaya matahari.diperkirakan tingginya sekira 100 meter dengan debit air yang cukup deras dan sangat deras di musim penghujan. Air Terjun Kabut Pelangi merupakan salah satu dari banyaknya air terjun yang terbentuk ditepian lembah-lembah curam Sungai Glidik di perbatasan Kabupaten Malang - Kabupaten Lumajang",
+            "Pantai Tiga Warna memiliki alam yang sangat indah, hamparan pasirnya berwarna putih, warna air dekat pantainya hijau toska, sedangkan warna air laut lainnya berwarna biru. Di sekitar Pantai Tiga Warna tumbuh pepohonan yang cukup banyak, sehingga lokasinya teduh tidak terlalu panas.Disana anda juga bisa menikmati Snorkeling dan Diving , Hunting dan Spot Foto",
+            "Taman Selecta mempunyai luas kurang lebih 18 hektar. Dimana, wisatawan akan dihibur dengan banyak sekali wahana. Seperti kolam renang, bunga, waterboom, playground dan masih banyak hal lagi yang bisa ditemukan disini. Kabar menariknya, keindahan selecta ini ternyata sudah sampai ke mancanegara. Di kolam renang yang disediakan ada perosotan yang cukup tinggi, yang mampu memacu adrenalain wisatawan. Disini pula wisatawan bisa melihat cinema 4 dimensi yang seru . "
     };
 
     private static final String[] jam ={
@@ -41,10 +45,58 @@ public class WisataData {
     };
 
     private static final String[] harga_tiket={
-            "35 Ribu",
-            "32 Ribu",
-            "10 Ribu",
-            "10 Ribu",
-            "40 Ribu"
+            "Rp 35 Ribu",
+            "Rp 32 Ribu",
+            "Rp 10 Ribu",
+            "Rp 10 Ribu",
+            "Rp 40 Ribu"
     };
+    private static final double[] rating={
+            4.5,
+            4.6,
+            4.1,
+            4.7,
+            4.5
+    };
+    private static final int[] ulasan ={
+            200,
+            467,
+            123,
+            221,
+            156
+    };
+    private static final String[] status={
+            "Buka",
+            "Buka",
+            "Buka",
+            "Buka",
+            "Buka"
+    };
+    private static final String[] protokol={
+            "Pakai Masker , Jaga Jarak , Vaksin minimal Dosis Pertama",
+            "Pakai Masker , Vaksin minimal Dosis Pertama",
+            "Pakai Masker",
+            "1 Rombongan maks.5 Orang ,Pakai Masker , Jaga Jarak",
+            "Pakai Masker , Jaga Jarak , Vaksin minimal Dosis Pertama",
+    };
+
+    public static List<Wisata> getWisataData(){
+        ArrayList<Wisata> listWisata =new ArrayList<>();
+        for (int i = 0; i < foto.length; i++) {
+            Wisata wisata = new Wisata();
+            wisata.setFoto(foto[i]);
+            wisata.setNama_wisata(nama_wisata[i]);
+            wisata.setDeskipsi(deskripsi[i]);
+            wisata.setJam(jam[i]);
+            wisata.setAlamat(alamat[i]);
+            wisata.setHarga_tiket(harga_tiket[i]);
+            wisata.setRating(rating[i]);
+            wisata.setUlasan(ulasan[i]);
+            wisata.setStatus(status[i]);
+            wisata.setProtokol(protokol[i]);
+
+            listWisata.add(wisata);
+        }
+        return listWisata;
+    }
 }
