@@ -9,6 +9,7 @@
         <entry key="..\:/Kuliah/SMT 5/Mobile/Pertemuan 6/Kuis/JJYuk/app/src/main/res/font/poppins.xml" value="0.3046875" />
         <entry key="..\:/Kuliah/SMT 5/Mobile/Pertemuan 6/Kuis/JJYuk/app/src/main/res/font/poppins_bold.xml" value="0.3046875" />
         <entry key="..\:/Kuliah/SMT 5/Mobile/Pertemuan 6/Kuis/JJYuk/app/src/main/res/font/poppins_medium.xml" value="0.3046875" />
+        <entry key="..\:/Kuliah/SMT 5/Mobile/Pertemuan 6/Kuis/JJYuk/app/src/main/res/layout/activity_detail.xml" value="0.27447916666666666" />
         <entry key="..\:/Kuliah/SMT 5/Mobile/Pertemuan 6/Kuis/JJYuk/app/src/main/res/layout/detail_activity.xml" value="0.264" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable/appbar_gradient.xml" value="0.3703125" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable/destination_image_gradient.xml" value="0.3703125" />
@@ -20,7 +21,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

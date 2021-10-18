@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         style="@style/ShapeAppearance.Destination.Detail.Image"
-        android:id="@+id/foto"/>
+        android:id="@+id/imgFoto"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/nama_wisata"
+                android:id="@+id/tvNamaWisata"
                 android:paddingLeft="20dp"
                 android:text="Flora Wisata San terra"
                 android:fontFamily="@font/poppins_bold"
@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/harga"
+                android:id="@+id/tvHarga"
                 style="@style/TextView.Price"
                 android:text="Rp 30 Ribu"
                 android:layout_marginStart="40dp"/>
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/rating"
+            android:id="@+id/tvRating"
             android:text="4.8"
             android:paddingStart="20dp"
             android:fontFamily="@font/poppins_bold"/>
@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ulasan"
+            android:id="@+id/tvUlasan"
             android:text="28"
             android:fontFamily="@font/poppins_medium"/>
         <TextView
@@ -90,7 +90,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/alamat"
+                android:id="@+id/tvAlamat"
                 android:text="Dusun Sebaluh, Pandesari,Pujon,Malang"
                 android:fontFamily="@font/poppins_medium"
                 android:textColor="#000000"/>
@@ -119,14 +119,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/jam_buka"
+            android:id="@+id/tvJamBuka"
             android:text="10AM - 09PM"
             android:fontFamily="@font/poppins_medium"
             android:textColor="#000000"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/status_buka"
+            android:id="@+id/tvStatusBuka"
             style="@style/TextView.Status.Success"
             android:text="Buka"
             android:layout_marginLeft="10dp" />
@@ -160,7 +160,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/protokol"
+                android:id="@+id/tvProtokol"
                 android:text="Pakai Masker"
                 android:fontFamily="@font/poppins"/>
         </LinearLayout>
@@ -182,7 +182,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/deskripsi"
+        android:id="@+id/tvDeskripsi"
         android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
         android:paddingStart="20dp"
         android:fontFamily="@font/poppins"/>
