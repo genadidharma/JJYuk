@@ -12,8 +12,8 @@
         <item name="android:background">@drawable/bg_search_view</item>
         <item name="android:imeOptions">actionSearch</item>
         <item name="iconifiedByDefault">false</item>
-        <item name="android:textColorHint">@color/neutral_70</item>
         <item name="searchIcon">@drawable/ic_search_24dp</item>
+        <item name="android:textColorHint">@color/neutral_50</item>
         <item name="android:layout_marginStart">@dimen/sm_margin_padding</item>
         <item name="android:textAppearance">@style/TextAppearance.JJYuk.TextXS.Regular</item>
     </style>
@@ -22,7 +22,7 @@
     <style name="Card.Destination" parent="Widget.MaterialComponents.CardView">
         <item name="cornerFamily">rounded</item>
         <item name="cardCornerRadius">@dimen/xl_component_corner_radius</item>
-        <item name="android:background">@color/neutral_10</item>
+        <item name="android:background">@color/neutral_100</item>
         <item name="cardElevation">@dimen/card_elevation</item>
     </style>
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/neutral_20"/>
+    <corners
+        android:bottomRightRadius="@dimen/xl_component_corner_radius"
+        android:bottomLeftRadius="@dimen/xl_component_corner_radius"
+        android:topLeftRadius="@dimen/xl_component_corner_radius"
+        android:topRightRadius="@dimen/xl_component_corner_radius"/>
+</shape>

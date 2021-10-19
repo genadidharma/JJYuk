@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    TODO: 1. Add color styles from Figma-->
+    <!--    TODO: 1. Add color styles from Figma-->
     <color name="blue_100">#2196F3</color>
 
     <color name="neutral_100">#0A0A0A</color>
@@ -13,9 +13,14 @@
     <color name="neutral_30">#EFEFEF</color>
     <color name="neutral_20">#F6F6F6</color>
     <color name="neutral_10">#FFFFFF</color>
-    
+
     <color name="neutral_100_alpha_030">#4D0A0A0A</color>
 
     <color name="semantic_succes">#28C642</color>
     <color name="semantic_warning">#FDD91A</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

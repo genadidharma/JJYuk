@@ -2,14 +2,17 @@
 <!-- TODO: 11. Configure dimens for sizes -->
 <resources>
     <!--    Apply to all components-->
-    <dimen name="lg_margin_padding">32dp</dimen>
-    <dimen name="md_margin_padding">16dp</dimen>
+    <dimen name="xxl_margin_padding">32dp</dimen>
+    <dimen name="xl_margin_padding">24dp</dimen>
+    <dimen name="lg_margin_padding">16dp</dimen>
+    <dimen name="md_margin_padding">12dp</dimen>
     <dimen name="sm_margin_padding">8dp</dimen>
     <dimen name="xs_margin_padding">4dp</dimen>
-    
+
     <!--    Logo-->
     <dimen name="logo_appbar_width">32dp</dimen>
     <dimen name="logo_appbar_height">32dp</dimen>
+    <dimen name="logo_splash_screen_size">200dp</dimen>
 
     <!--    Icon Size-->
     <dimen name="lg_icon_size">48dp</dimen>

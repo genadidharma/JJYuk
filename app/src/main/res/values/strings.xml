@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">JJYuk</string>
+    <string name="destination_card_img_desc">Destination Image here</string>
+    <string name="jumlah_ulasan">(%1$s Ulasan)</string>
+    <string name="per_orang">/orang</string>
+    <string name="per_orang_description">per orang</string>
+    <string name="map_button"><u>Lihat di Map</u></string>
+    <string name="placeholder_about">Tentang</string>
+    <string name="placeholder_health_safety_protocol">Protokol Kesehatan Diterapkan</string>
+    <string name="title_activity_video">VideoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
