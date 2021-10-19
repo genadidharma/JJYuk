@@ -1,15 +1,18 @@
 package org.genadidharma.jjjyuk;
 
-public class Wisata {
-
-
-    //    Deklrasi Variable
-    private int ulasan ;
+public class Destination {
+    private int jenis, ulasan;
     private double rating;
-    private String nama_wisata , deskipsi , jam , alamat ,harga_tiket , foto , protokol , status;
+    private String nama_wisata, deskipsi, jarak, jam, alamat, tempat, harga_tiket, foto, video, protokol, status;
 
+    public int getJenis() {
+        return jenis;
+    }
 
-    //    Create Setter and Getter
+    public void setJenis(int jenis) {
+        this.jenis = jenis;
+    }
+
     public int getUlasan() {
         return ulasan;
     }
@@ -58,6 +61,14 @@ public class Wisata {
         this.alamat = alamat;
     }
 
+    public String getTempat() {
+        return tempat;
+    }
+
+    public void setTempat(String tempat) {
+        this.tempat = tempat;
+    }
+
     public String getHarga_tiket() {
         return harga_tiket;
     }
@@ -72,6 +83,14 @@ public class Wisata {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     public String getProtokol() {
@@ -90,7 +109,11 @@ public class Wisata {
         this.status = status;
     }
 
+    public String getJarak() {
+        return jarak;
+    }
 
-
-
+    public void setJarak(String jarak) {
+        this.jarak = jarak;
+    }
 }
