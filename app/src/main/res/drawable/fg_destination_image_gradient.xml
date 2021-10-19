@@ -8,6 +8,8 @@
                 android:endColor="@android:color/transparent"
                 android:startColor="@color/neutral_100"
                 android:type="linear" />
+            <corners
+                android:radius="@dimen/lg_margin_padding"/>
         </shape>
     </item>
 </selector>
