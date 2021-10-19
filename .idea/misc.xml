@@ -6,6 +6,7 @@
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable-night/bg_search_view.xml" value="0.3453703703703704" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable-night/ic_search_24dp.xml" value="0.3453703703703704" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable-v24/bg_searchview.xml" value="0.3453703703703704" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3646153846153846" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable-v24/ic_star_24dp.xml" value="0.3646153846153846" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable/appbar_gradient.xml" value="0.3703125" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/drawable/bg_appbar_gradient.xml" value="0.3646153846153846" />
@@ -23,13 +24,16 @@
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/font/poppins.xml" value="0.384375" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/font/poppins_bold.xml" value="0.225" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/font/poppins_medium.xml" value="0.225" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/activity_detail.xml" value="0.30117753623188404" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/activity_splash_screen.xml" value="0.30117753623188404" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/activity_video.xml" value="0.3070652173913043" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/detail_activity.xml" value="0.33" />
         <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/item_destination.xml" value="0.5" />
-        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/item_destination_image.xml" value="0.33" />
-        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/item_destination_video.xml" value="0.26268115942028986" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/item_destination_image.xml" value="0.5" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/layout/item_destination_video.xml" value="0.33" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3646153846153846" />
+        <entry key="..\:/Programming/Kuliah/Tingkat 3/Semester 5/Pemrograman Mobile/Week 6 - Kuis/Final/JJYuk/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2109375" />
       </map>
     </option>
   </component>

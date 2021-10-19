@@ -102,4 +102,10 @@
         <item name="android:paddingEnd">@dimen/xs_margin_padding</item>
         <item name="android:textAppearance">@style/TextAppearance.JJYuk.Text2XS.Medium</item>
     </style>
+
+    <!--    Divider Background-->
+    <style name="Divider" parent="">
+        <item name="android:background">@color/neutral_80</item>
+    </style>
+
 </resources>
