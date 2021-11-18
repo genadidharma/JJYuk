@@ -1,4 +1,4 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.data.model;
 
 public class Destination {
     private int jenis, ulasan;

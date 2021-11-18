@@ -1,25 +1,24 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.ui.destination.domain;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-import org.genadidharma.jjjyuk.databinding.ActivityVideoBinding;
+import org.genadidharma.jjjyuk.MainActivity;
+import org.genadidharma.jjjyuk.R;
 
-public class VideoActivity extends AppCompatActivity {
+public class DestinationVideoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
+        setContentView(R.layout.activity_destination_video);
 
         YouTubePlayerView playerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(playerView);

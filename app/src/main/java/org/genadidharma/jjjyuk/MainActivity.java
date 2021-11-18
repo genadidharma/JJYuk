@@ -7,7 +7,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+
+import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.data.model.DestinationData;
+import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
+import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
+import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
 
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAdapter() {
         DestinationAdapter destinationAdapter = new DestinationAdapter(destinations, (destination) -> {
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, destination.getJenis());
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNama_wisata());
             intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, destination.getAlamat());

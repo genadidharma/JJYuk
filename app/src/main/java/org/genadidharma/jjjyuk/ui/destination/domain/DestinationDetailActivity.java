@@ -1,4 +1,4 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.ui.destination.domain;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
-public class DetailActivity extends AppCompatActivity {
+import org.genadidharma.jjjyuk.MainActivity;
+import org.genadidharma.jjjyuk.R;
+import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
+
+public class DestinationDetailActivity extends AppCompatActivity {
 
     private String title, image, video, distance, description, time, address, price, status, protocol;
     private double rating;
@@ -26,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_destination_detail);
 
         initLayout();
         getIntentExtra();
@@ -57,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (ivImage.isClickable()) {
             ivImage.setOnClickListener(view -> {
-                Intent intent = new Intent(DetailActivity.this, VideoActivity.class);
+                Intent intent = new Intent(DestinationDetailActivity.this, DestinationVideoActivity.class);
                 intent.putExtra(MainActivity.EXTRA_KEY_DESTINATION_VIDEO, video);
                 startActivity(intent);
             });

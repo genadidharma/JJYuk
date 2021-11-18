@@ -1,4 +1,7 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.data.model;
+
+import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 
 import java.util.ArrayList;
 

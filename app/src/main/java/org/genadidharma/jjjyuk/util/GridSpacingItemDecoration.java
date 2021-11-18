@@ -1,4 +1,4 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.util;
 
 import android.graphics.Rect;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private final int spanCount;
     private final int spacing;

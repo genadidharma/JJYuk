@@ -1,10 +1,13 @@
-package org.genadidharma.jjjyuk;
+package org.genadidharma.jjjyuk.ui.splash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import org.genadidharma.jjjyuk.MainActivity;
+import org.genadidharma.jjjyuk.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
