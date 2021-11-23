@@ -1,20 +1,32 @@
 package org.genadidharma.jjjyuk;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.genadidharma.jjjyuk.data.model.DestinationResponse;
 import org.genadidharma.jjjyuk.data.model.Destination;
-import org.genadidharma.jjjyuk.data.model.DestinationData;
+import org.genadidharma.jjjyuk.networks.APIBuilder;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_VIDEO = "video";
     public static final String EXTRA_KEY_DESTINATION_DISTANCE = "distance";
 
+    private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDestination;
-    private ArrayList<Destination> destinations;
+    private LinearLayout llError;
+    private Button btnRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +55,52 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initLayout();
-        iniData();
-        setupAdapter();
+        doAsync();
+        onRefresh();
     }
 
     private void initLayout() {
+        srlRefresh = findViewById(R.id.srl_refresh);
         rvDestination = findViewById(R.id.rv_destination);
+        llError = findViewById(R.id.ll_error);
+        btnRefresh = findViewById(R.id.btn_refresh);
     }
 
-    private void iniData() {
-        destinations = DestinationData.getWisataData();
+    private void doAsync() {
+        srlRefresh.setRefreshing(true);
+        APIBuilder apiBuilder = new APIBuilder();
+        Call<DestinationResponse> call = apiBuilder.service.getDestinations();
+        call.enqueue(new Callback<DestinationResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
+                setupAdapter(response.body() != null ? response.body().getDestinations() : null);
+                rvDestination.setVisibility(View.VISIBLE);
+                llError.setVisibility(View.GONE);
+                srlRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DestinationResponse> call, @NonNull Throwable t) {
+                Log.e("Error Message", t.getMessage());
+                rvDestination.setVisibility(View.GONE);
+                llError.setVisibility(View.VISIBLE);
+                srlRefresh.setRefreshing(false);
+            }
+        });
     }
 
-    private void setupAdapter() {
-        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations, (destination) -> {
+    private void setupAdapter(List<Destination> list) {
+        if (list.size() == 0) llError.setVisibility(View.VISIBLE);
+
+        DestinationAdapter destinationAdapter = new DestinationAdapter(list, (destination) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
-            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, destination.getJenis());
-            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNama_wisata());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
+            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNamaWisata());
             intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, destination.getAlamat());
-            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, destination.getDeskipsi());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, destination.getHarga_tiket());
+            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, destination.getDeskripsi());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, destination.getHargaTiket());
             intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, destination.getProtokol());
-            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, destination.getJam());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, destination.getJamBuka() + "-" + destination.getJamTutup());
             intent.putExtra(EXTRA_KEY_DESTINATION_RATING, destination.getRating());
             intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, destination.getStatus());
             intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, destination.getUlasan());
@@ -81,5 +119,10 @@ public class MainActivity extends AppCompatActivity {
                 0));
 
         rvDestination.setAdapter(destinationAdapter);
+    }
+
+    private void onRefresh() {
+        srlRefresh.setOnRefreshListener(this::doAsync);
+        btnRefresh.setOnClickListener((v) -> doAsync());
     }
 }

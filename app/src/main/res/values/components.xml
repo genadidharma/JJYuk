@@ -93,6 +93,13 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <!--    Favorite Button-->
+    <style name="Button.Icon.Favorite" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/sm_margin_padding</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <!--    Destination open/close status-->
     <style name="TextView.Status.Success" parent="Widget.AppCompat.TextView">
         <item name="cornerFamily">rounded</item>
