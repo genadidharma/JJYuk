@@ -32,18 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lg_margin_padding"
             android:layout_marginTop="@dimen/xxl_margin_padding"
+            android:layout_marginEnd="@dimen/lg_margin_padding"
             android:textAppearance="@style/TextAppearance.JJYuk.Text2XL.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/gl_title_price"
+            app:layout_constraintEnd_toStartOf="@+id/tv_price"
             app:layout_constraintStart_toStartOf="@+id/iv_image"
             app:layout_constraintTop_toBottomOf="@+id/iv_image"
             tools:text="Flora Wisata San Tera" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_title_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="252dp" />
 
         <TextView
             android:id="@+id/tv_price"
@@ -136,20 +130,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.JJYuk.TextXS.Medium"
             android:textColor="?android:textColorSecondary"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_map"
             app:layout_constraintStart_toStartOf="@+id/tv_address"
-            app:layout_constraintTop_toTopOf="@+id/tv_map"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"
             tools:text="3KM" />
-
-        <Button
-            android:id="@+id/tv_map"
-            style="@style/Button.Text.Map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs_margin_padding"
-            android:text="@string/map_button"
-            app:layout_constraintStart_toEndOf="@+id/tv_distance"
-            app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
         <ImageView
             android:id="@+id/imageView6"
@@ -177,6 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xs_margin_padding"
+            android:background="@drawable/destination_state"
             app:layout_constraintBottom_toBottomOf="@+id/tv_time"
             app:layout_constraintStart_toEndOf="@+id/tv_time"
             app:layout_constraintTop_toTopOf="@+id/tv_time"
@@ -214,14 +198,24 @@
             tools:text="Pakai Masker, Cek Suhu, Jaga Jarak" />
 
         <TextView
-            android:id="@+id/tv_description_placeholder"
+            android:id="@+id/tv_map_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xl_margin_padding"
+            android:text="@string/placeholder_map"
+            android:textAppearance="@style/TextAppearance.JJYuk.TextLG.Medium"
+            app:layout_constraintStart_toStartOf="@+id/imageView7"
+            app:layout_constraintTop_toBottomOf="@+id/tv_health_safety_protocol" />
+
+        <TextView
+            android:id="@+id/tv_description_placeholder2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xl_margin_padding"
             android:text="@string/placeholder_about"
             android:textAppearance="@style/TextAppearance.JJYuk.TextLG.Medium"
-            app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/tv_health_safety_protocol" />
+            app:layout_constraintStart_toStartOf="@+id/tv_map_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/tv_map_placeholder" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -233,8 +227,8 @@
             android:textColor="?android:textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_description_placeholder"
-            app:layout_constraintTop_toBottomOf="@+id/tv_description_placeholder"
+            app:layout_constraintStart_toStartOf="@+id/tv_map_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description_placeholder2"
             tools:text="@tools:sample/lorem/random" />
 
         <ImageView

@@ -3,4 +3,8 @@
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="destinationStatusAttrs">
+        <attr name="state_open" format="boolean"/>
+    </declare-styleable>
 </resources>
