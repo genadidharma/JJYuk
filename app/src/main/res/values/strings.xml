@@ -13,4 +13,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="destination_not_found_desc">Destinasi Tidak Ditemukan</string>
     <string name="destination_not_found_description_desc">Coba cek koneksi internetmu, lalu refresh halaman ini atau buka ulang aplikasi</string>
+    <string name="placeholder_map">Peta</string>
 </resources>

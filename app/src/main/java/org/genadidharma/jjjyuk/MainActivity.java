@@ -22,6 +22,7 @@ import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,13 +49,18 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvDestination;
     private LinearLayout llError;
     private Button btnRefresh;
+    private DestinationAdapter destinationAdapter;
+    private List<Destination> destinationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        destinationList = new ArrayList<>();
+
         initLayout();
+        setupAdapter(destinationList);
         doAsync();
         onRefresh();
     }
@@ -73,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<DestinationResponse>() {
             @Override
             public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
-                setupAdapter(response.body() != null ? response.body().getDestinations() : null);
+                destinationList = response.body() != null ? response.body().getDestinations() : null;
+                destinationAdapter.updateData(destinationList);
+
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
@@ -90,9 +98,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupAdapter(List<Destination> list) {
-        if (list.size() == 0) llError.setVisibility(View.VISIBLE);
+        if (list.size() == 0) {
+            llError.setVisibility(View.VISIBLE);
+            rvDestination.setVisibility(View.GONE);
+        }
 
-        DestinationAdapter destinationAdapter = new DestinationAdapter(list, (destination) -> {
+        destinationAdapter = new DestinationAdapter(list, (destination) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNamaWisata());

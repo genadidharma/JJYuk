@@ -100,10 +100,9 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!--    Destination open/close status-->
+    <!--    Destination open status-->
     <style name="TextView.Status.Success" parent="Widget.AppCompat.TextView">
         <item name="cornerFamily">rounded</item>
-        <item name="android:background">@drawable/bg_status_success</item>
         <item name="android:textColor">@color/neutral_10</item>
         <item name="android:paddingStart">@dimen/xs_margin_padding</item>
         <item name="android:paddingEnd">@dimen/xs_margin_padding</item>

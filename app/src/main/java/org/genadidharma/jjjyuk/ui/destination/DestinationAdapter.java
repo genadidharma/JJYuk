@@ -19,6 +19,8 @@ import java.util.List;
 public class DestinationAdapter extends RecyclerView.Adapter {
     public static final String KEY_IMAGE = "gambar";
     public static final String KEY_VIDEO = "video";
+    public static final String KEY_OPEN = "buka";
+
     public static final int LAYOUT_IMAGE = 0;
     public static final int LAYOUT_VIDEO = 1;
 
@@ -75,6 +77,12 @@ public class DestinationAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return destinations.size();
     }
+
+    public void updateData(List<Destination> newDestinations){
+        destinations.clear();
+        destinations.addAll(newDestinations);
+        notifyDataSetChanged();
+    }
 }
 
 class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
@@ -101,6 +109,8 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvReview.setText(itemView.getResources().getString(R.string.jumlah_ulasan, String.valueOf(destination.getUlasan())));
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
+
+        tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
         itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
     }
@@ -131,6 +141,8 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvReview.setText(itemView.getResources().getString(R.string.jumlah_ulasan, String.valueOf(destination.getUlasan())));
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
+
+        tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
         itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
     }

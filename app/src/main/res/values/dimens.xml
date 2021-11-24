@@ -28,7 +28,7 @@
     <dimen name="card_destination_lg_height">260dp</dimen>
     <dimen name="image_card_destination_height">240dp</dimen>
 
-<!--    Lottie Size-->
+    <!--    Lottie Size-->
     <dimen name="lottie_not_found_size">300dp</dimen>
 
     <!--    Destination Detail Image-->

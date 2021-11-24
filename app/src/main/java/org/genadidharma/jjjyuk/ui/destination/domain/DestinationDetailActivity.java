@@ -59,6 +59,8 @@ public class DestinationDetailActivity extends AppCompatActivity {
         tvStatus.setText(status);
         tvRating.setText(String.valueOf(rating));
 
+        tvStatus.setEnabled(status.equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
+
         if (ivImage.isClickable()) {
             ivImage.setOnClickListener(view -> {
                 Intent intent = new Intent(DestinationDetailActivity.this, DestinationVideoActivity.class);
