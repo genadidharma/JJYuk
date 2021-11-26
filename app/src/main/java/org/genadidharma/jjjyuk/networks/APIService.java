@@ -14,6 +14,6 @@ public interface APIService {
 
     @GET("/")
     Call<DestinationResponse> searchDestinations(
-            @Query("id") int id
+            @Query("q") int q
     );
 }
