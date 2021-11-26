@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
+
+                if (destinationList.size() == 0) {
+                    llError.setVisibility(View.VISIBLE);
+                    rvDestination.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -98,10 +103,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupAdapter(List<Destination> list) {
-        if (list.size() == 0) {
-            llError.setVisibility(View.VISIBLE);
-            rvDestination.setVisibility(View.GONE);
-        }
 
         destinationAdapter = new DestinationAdapter(list, (destination) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
