@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,12 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.genadidharma.jjjyuk.MainActivity;
 import org.genadidharma.jjjyuk.R;
+import org.genadidharma.jjjyuk.db.AppDatabase;
+import org.genadidharma.jjjyuk.db.Dest;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DestinationDetailActivity extends AppCompatActivity {
 
@@ -26,6 +32,9 @@ public class DestinationDetailActivity extends AppCompatActivity {
     private ShapeableImageView ivImage;
     private ImageView ivFgVideo, ivPlayVideo;
     private Toolbar toolbar;
+    List<Dest> dataList = new ArrayList<>();
+    AppDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,36 @@ public class DestinationDetailActivity extends AppCompatActivity {
 
         initLayout();
         getIntentExtra();
+
+        database = AppDatabase.getInstance(this);
+
+        Button favoriteButton = findViewById(R.id.btn_fav);
+        favoriteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Dest data = new Dest();
+
+                data.setJenis(Integer.toString(type));
+                data.setFoto(image);
+                data.setVideo(video);
+                data.setNama_wisata(title);
+                data.setDeskripsi(description);
+                data.setJam_buka(time);
+                data.setAlamat(address);
+                data.setJarak(distance);
+                data.setHarga_tiket(price);
+                data.setRating(rating);
+                data.setUlasan(review);
+                data.setStatus(status);
+                data.setProtokol(protocol);
+
+                database.destDao().insertDest(data);
+
+                dataList.clear();
+                dataList.addAll(database.destDao().getAll());
+            }
+        });
+
 
         if (type == DestinationAdapter.LAYOUT_IMAGE) {
             ivFgVideo.setVisibility(View.GONE);
