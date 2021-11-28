@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import org.genadidharma.jjjyuk.MainActivity;
 import org.genadidharma.jjjyuk.R;
@@ -37,6 +42,7 @@ public class Destination_Favorite extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_DISTANCE = "distance";
 
     private RecyclerView rv_fav;
+    private SwipeRefreshLayout srlRefresh;
     private List<Dest> dest = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     AppDatabase database;
@@ -62,7 +68,7 @@ public class Destination_Favorite extends AppCompatActivity {
     }
 
     private void setupAdapter(List<Dest> list) {
-        adapter = new DestinationAdapterFav(list, (destination) -> {
+        adapter = new DestinationAdapterFav(list,Destination_Favorite.this, (destination) -> {
             Intent intent = new Intent(Destination_Favorite.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNama_wisata());
@@ -90,4 +96,5 @@ public class Destination_Favorite extends AppCompatActivity {
 
         rv_fav.setAdapter(adapter);
     }
+
 }

@@ -263,13 +263,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_arrow_back_24dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Button.Icon.Favorite"
+            android:layout_width="49dp"
+            android:layout_height="41dp"
             android:layout_marginTop="32dp"
-            android:text="Button"
-            android:background="@drawable/ic_baseline_favorite_24"
+            android:layout_weight="1"
+            android:src="@drawable/ic_favorite_border_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.869"
             app:layout_constraintStart_toEndOf="@+id/tv_status"

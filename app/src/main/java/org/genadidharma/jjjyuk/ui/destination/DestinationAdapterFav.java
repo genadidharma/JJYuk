@@ -1,8 +1,10 @@
 package org.genadidharma.jjjyuk.ui.destination;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,9 +29,13 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
 
     private final OnDestinationFavClick destinationClickListenerFav;
     private final List<Dest> destinations;
+    private Activity context;
 
-    public DestinationAdapterFav(List<Dest> destinations, OnDestinationFavClick destinationClickListener) {
+
+
+    public DestinationAdapterFav(List<Dest> destinations,Activity context, OnDestinationFavClick destinationClickListener) {
         this.destinations = destinations;
+        this.context = context;
         this.destinationClickListenerFav = destinationClickListener;
     }
 
@@ -52,10 +58,10 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
         switch (viewType) {
             case LAYOUT_IMAGE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_destination_image, parent, false);
-                return new DestinationImageAdapterViewHolder(view);
+                return new DestinationImageFavAdapterViewHolder(view);
             case LAYOUT_VIDEO:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_destination_video, parent, false);
-                return new DestinationVideoAdapterViewHolder(view);
+                return new DestinationVideoFavAdapterViewHolder(view);
             default:
                 return null;
         }
@@ -63,9 +69,7 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        Dest dest = destinations.get(position);
-        switch (dest.getJenis()) {
+        switch (destinations.get(position).getJenis()) {
             case KEY_IMAGE:
                 ((DestinationImageFavAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListenerFav);
                 break;
@@ -80,15 +84,22 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
     public int getItemCount() {
         return destinations.size();
     }
+
+    public void updateData(List<Dest> newDestinations){
+        destinations.clear();
+        destinations.addAll(newDestinations);
+        notifyDataSetChanged();
+    }
 }
 
 class DestinationImageFavAdapterViewHolder extends RecyclerView.ViewHolder {
+    Button favoriteButton;
 
     public DestinationImageFavAdapterViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
-    void bindItem(Dest destination, OnDestinationFavClick destinationClickListener) {
+    void bindItem(Dest destination, OnDestinationFavClick destinationClickListenerFav) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -109,7 +120,7 @@ class DestinationImageFavAdapterViewHolder extends RecyclerView.ViewHolder {
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClickFav(destination));
+        itemView.setOnClickListener(view -> destinationClickListenerFav.onDestinationClickFav(destination));
     }
 }
 
@@ -119,8 +130,7 @@ class DestinationVideoFavAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Dest destination, OnDestinationFavClick destinationClickListener) {
-
+    void bindItem(Dest destination, OnDestinationFavClick destinationClickListenerFav) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -141,6 +151,6 @@ class DestinationVideoFavAdapterViewHolder extends RecyclerView.ViewHolder {
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClickFav(destination));
+        itemView.setOnClickListener(view -> destinationClickListenerFav.onDestinationClickFav(destination));
     }
 }
