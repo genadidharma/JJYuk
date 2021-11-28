@@ -12,14 +12,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.genadidharma.jjjyuk.data.model.DestinationResponse;
 import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.db.AppDatabase;
+import org.genadidharma.jjjyuk.db.Dest;
 import org.genadidharma.jjjyuk.networks.APIBuilder;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
+import org.genadidharma.jjjyuk.ui.destination.domain.Destination_Favorite;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -44,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_IMAGE = "image";
     public static final String EXTRA_KEY_DESTINATION_VIDEO = "video";
     public static final String EXTRA_KEY_DESTINATION_DISTANCE = "distance";
+    public static final String EXTRA_KEY_DESTINATION_CLOSE = "jam_tutup";
+    public static final String EXTRA_KEY_DESTINATION_OPEN = "jam_buka";
+    public static final String EXTRA_KEY_DESTINATION_LATITUDE = "lat";
+    public static final String EXTRA_KEY_DESTINATION_LONGITUDE = "long";
+
+
 
     private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDestination;
@@ -51,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnRefresh;
     private DestinationAdapter destinationAdapter;
     private List<Destination> destinationList;
+    AppDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
         setupAdapter(destinationList);
         doAsync();
         onRefresh();
+
+        ImageButton btn_fav = findViewById(R.id.btn_to_fav);
+
+        btn_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , Destination_Favorite.class));
+            }
+        });
     }
 
     private void initLayout() {
@@ -81,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
                 destinationList = response.body() != null ? response.body().getDestinations() : null;
                 destinationAdapter.updateData(destinationList);
-
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
+
 
                 if (destinationList.size() == 0) {
                     llError.setVisibility(View.VISIBLE);
@@ -119,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, destination.getFoto());
             intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, destination.getVideo());
             intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, destination.getJarak());
+            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, destination.getJamBuka());
+            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, destination.getJamTutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, destination.getLat());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, destination.getJsonMemberLong());
+
+
             startActivity(intent);
         });
 
