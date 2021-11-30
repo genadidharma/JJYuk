@@ -2,6 +2,7 @@ package org.genadidharma.jjjyuk.ui.destination.domain;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,13 +42,7 @@ public class DestinationDetailActivity extends AppCompatActivity {
     private String jenis;
     boolean found = true;
     DestinationAdapterFav adapter;
-    public static Handler mHandler;
-    Runnable refresh;
-
-
-
-
-
+    DestinationAdapter adapter_dest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +126,14 @@ public class DestinationDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        adapter.notifyDataSetChanged();
+        adapter_dest.notifyDataSetChanged();
+        super.onBackPressed();
+    }
+
     private void initButtonFavorite(){
         List<Dest> dest = new ArrayList<>();
         ImageButton favoriteButton = findViewById(R.id.btn_fav);
@@ -146,18 +149,6 @@ public class DestinationDetailActivity extends AppCompatActivity {
             favoriteButton.setImageResource(R.drawable.ic_favorite_border_24dp);
         }
     }
-
-    private final Runnable m_Runnable = new Runnable()
-    {
-        public void run()
-
-        {
-            Toast.makeText(DestinationDetailActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
-
-            DestinationDetailActivity.this.mHandler.postDelayed(m_Runnable, 5000);
-        }
-
-    };//runnable
 
     private void initLayout() {
         tvTitle = findViewById(R.id.tv_title);
@@ -233,5 +224,4 @@ public class DestinationDetailActivity extends AppCompatActivity {
         startActivity(getIntent());
         overridePendingTransition(0, 0);
     }
-
 }

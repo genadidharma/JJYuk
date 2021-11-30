@@ -93,10 +93,7 @@ public class DestinationAdapter extends RecyclerView.Adapter {
         return destinations.size();
     }
 
-    public void updateData(List<Destination> newDestinations,List<Dest> newDestFav){
-//        List<Dest> destFav = new ArrayList<>();
-//        destFav.addAll(newDestFav);
-
+    public void updateData(List<Destination> newDestinations, List<Dest> newDestFav){
         destinations.clear();
         destinations.addAll(newDestinations);
         favDestinations.clear();
@@ -132,8 +129,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvStatus.setText(destination.getStatus());
 
         if (heart == true){
-//            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
-            iv_fav_img.setVisibility(View.GONE);
+            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
         }else if(heart == false){
             iv_fav_img.setVisibility(View.GONE);
         }
@@ -172,8 +168,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvStatus.setText(destination.getStatus());
 
         if (heart == true){
-//            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
-            iv_fav_vid.setVisibility(View.GONE);
+            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
         }else if(heart == false){
             iv_fav_vid.setVisibility(View.GONE);
         }
