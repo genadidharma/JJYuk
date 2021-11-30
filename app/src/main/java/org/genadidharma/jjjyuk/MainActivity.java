@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import org.genadidharma.jjjyuk.db.AppDatabase;
 import org.genadidharma.jjjyuk.db.Dest;
 import org.genadidharma.jjjyuk.networks.APIBuilder;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
+import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
 import org.genadidharma.jjjyuk.ui.destination.domain.Destination_Favorite;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
@@ -56,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SwipeRefreshLayout srlRefresh;
+    private ImageView iv_fav_img , iv_fav_vid;
     private RecyclerView rvDestination;
     private LinearLayout llError;
     private Button btnRefresh;
     private DestinationAdapter destinationAdapter;
     private List<Destination> destinationList;
+    private List<Dest> destFavList;
     AppDatabase database;
+    private DestinationAdapterFav adapter;
 
 
     @Override
@@ -70,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         destinationList = new ArrayList<>();
+        destFavList = new ArrayList<>();
+
+        database = AppDatabase.getInstance(this);
+        destFavList = database.destDao().getAll();
 
         initLayout();
         setupAdapter(destinationList);
@@ -91,9 +100,14 @@ public class MainActivity extends AppCompatActivity {
         rvDestination = findViewById(R.id.rv_destination);
         llError = findViewById(R.id.ll_error);
         btnRefresh = findViewById(R.id.btn_refresh);
+        iv_fav_img = findViewById(R.id.iv_fav_img);
+        iv_fav_vid = findViewById(R.id.iv_fav_vid);
     }
 
     private void doAsync() {
+        destFavList.clear();
+        destFavList = database.destDao().getAll();
+
         srlRefresh.setRefreshing(true);
         APIBuilder apiBuilder = new APIBuilder();
         Call<DestinationResponse> call = apiBuilder.service.getDestinations();
@@ -101,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
                 destinationList = response.body() != null ? response.body().getDestinations() : null;
-                destinationAdapter.updateData(destinationList);
+                destinationAdapter.updateData(destinationList,destFavList);
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
@@ -125,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAdapter(List<Destination> list) {
 
-        destinationAdapter = new DestinationAdapter(list, (destination) -> {
+        destinationAdapter = new DestinationAdapter(list,destFavList, (destination) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNamaWisata());
@@ -140,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, destination.getFoto());
             intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, destination.getVideo());
             intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, destination.getJarak());
-            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, destination.getJamBuka());
-            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, destination.getJamTutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, destination.getJamTutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, destination.getJamBuka());
             intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, destination.getLat());
             intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, destination.getJsonMemberLong());
 

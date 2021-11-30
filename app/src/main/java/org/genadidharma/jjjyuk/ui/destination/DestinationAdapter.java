@@ -3,6 +3,7 @@ package org.genadidharma.jjjyuk.ui.destination;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,9 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.genadidharma.jjjyuk.R;
 import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.db.Dest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DestinationAdapter extends RecyclerView.Adapter {
@@ -26,10 +29,14 @@ public class DestinationAdapter extends RecyclerView.Adapter {
 
     private final OnDestinationClickListener destinationClickListener;
     private final List<Destination> destinations;
+    private final List<Dest> favDestinations;
 
-    public DestinationAdapter(List<Destination> destinations, OnDestinationClickListener destinationClickListener) {
+    public static boolean heart=false;
+
+    public DestinationAdapter(List<Destination> destinations,List<Dest> favDestinations, OnDestinationClickListener destinationClickListener) {
         this.destinations = destinations;
         this.destinationClickListener = destinationClickListener;
+        this.favDestinations = favDestinations;
     }
 
     @Override
@@ -62,12 +69,19 @@ public class DestinationAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        heart = false;
+        for (int i = 0; i < favDestinations.size(); i++) {
+            if (favDestinations.get(i).getNama_wisata().equalsIgnoreCase(destinations.get(position).getNamaWisata())) {
+                heart = true;
+                break;
+            }
+        }
         switch (destinations.get(position).getJenis()) {
             case KEY_IMAGE:
-                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
+                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position),heart, destinationClickListener);
                 break;
             case KEY_VIDEO:
-                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
+                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position),heart, destinationClickListener);
                 break;
             default:
         }
@@ -78,9 +92,14 @@ public class DestinationAdapter extends RecyclerView.Adapter {
         return destinations.size();
     }
 
-    public void updateData(List<Destination> newDestinations){
+    public void updateData(List<Destination> newDestinations,List<Dest> newDestFav){
+        List<Dest> destFav = new ArrayList<>();
+        destFav.addAll(newDestFav);
+
         destinations.clear();
         destinations.addAll(newDestinations);
+        favDestinations.clear();
+        favDestinations.addAll(destFav);
         notifyDataSetChanged();
     }
 }
@@ -91,7 +110,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination,boolean heart, OnDestinationClickListener destinationClickListener) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -99,6 +118,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
+        ImageView iv_fav_img = itemView.findViewById(R.id.iv_fav_img);
 
         Glide.with(itemView.getContext())
                 .load(destination.getFoto())
@@ -109,6 +129,12 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvReview.setText(itemView.getResources().getString(R.string.jumlah_ulasan, String.valueOf(destination.getUlasan())));
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
+
+        if (heart == true){
+            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
+        }else if(heart == false){
+            iv_fav_img.setVisibility(View.GONE);
+        }
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
@@ -122,7 +148,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination,boolean heart, OnDestinationClickListener destinationClickListener) {
 
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
@@ -131,6 +157,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
+        ImageView iv_fav_vid = itemView.findViewById(R.id.iv_fav_vid);
 
         Glide.with(itemView.getContext())
                 .load("https://img.youtube.com/vi/" + destination.getVideo() + "/0.jpg")
@@ -142,8 +169,15 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
 
+        if (heart == true){
+            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
+        }else if(heart == false){
+            iv_fav_vid.setVisibility(View.GONE);
+        }
+
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
         itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
     }
 }
+

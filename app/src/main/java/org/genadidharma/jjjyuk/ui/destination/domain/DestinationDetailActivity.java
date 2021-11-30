@@ -210,4 +210,5 @@ public class DestinationDetailActivity extends AppCompatActivity {
         dataList.clear();
         dataList.addAll(database.destDao().getAll());
     }
+
 }
