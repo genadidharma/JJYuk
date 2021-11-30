@@ -5,11 +5,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -39,7 +41,8 @@ public class DestinationDetailActivity extends AppCompatActivity {
     private String jenis;
     boolean found = true;
     DestinationAdapterFav adapter;
-
+    public static Handler mHandler;
+    Runnable refresh;
 
 
 
@@ -56,8 +59,6 @@ public class DestinationDetailActivity extends AppCompatActivity {
         getIntentExtra();
         initButtonFavorite();
 
-
-
         ImageButton favoriteButton = findViewById(R.id.btn_fav);
         favoriteButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -67,6 +68,7 @@ public class DestinationDetailActivity extends AppCompatActivity {
                 if (database.destDao().getRowCount() == 0){
                     insertNewDestination();
                     favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    autoRefresh();
                 }else{
                     for (int i = 0; i < database.destDao().getRowCount() ; i++) {
                         if (dest.get(i).getNama_wisata().equalsIgnoreCase(title)) {
@@ -75,12 +77,14 @@ public class DestinationDetailActivity extends AppCompatActivity {
                             dest.clear();
                             found = false;
                             favoriteButton.setImageResource(R.drawable.ic_favorite_border_24dp);
+                            autoRefresh();
                             break;
                         }
                     }
                     if (found == true){
                       insertNewDestination();
                         favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        autoRefresh();
                     }
                 }
             }
@@ -142,6 +146,18 @@ public class DestinationDetailActivity extends AppCompatActivity {
             favoriteButton.setImageResource(R.drawable.ic_favorite_border_24dp);
         }
     }
+
+    private final Runnable m_Runnable = new Runnable()
+    {
+        public void run()
+
+        {
+            Toast.makeText(DestinationDetailActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
+
+            DestinationDetailActivity.this.mHandler.postDelayed(m_Runnable, 5000);
+        }
+
+    };//runnable
 
     private void initLayout() {
         tvTitle = findViewById(R.id.tv_title);
@@ -209,6 +225,13 @@ public class DestinationDetailActivity extends AppCompatActivity {
 
         dataList.clear();
         dataList.addAll(database.destDao().getAll());
+    }
+
+    private void autoRefresh(){
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
 }

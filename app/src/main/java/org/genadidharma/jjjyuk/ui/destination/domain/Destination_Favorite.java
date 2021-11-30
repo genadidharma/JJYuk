@@ -44,6 +44,11 @@ public class Destination_Favorite extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_IMAGE = "image";
     public static final String EXTRA_KEY_DESTINATION_VIDEO = "video";
     public static final String EXTRA_KEY_DESTINATION_DISTANCE = "distance";
+    public static final String EXTRA_KEY_DESTINATION_CLOSE = "jam_tutup";
+    public static final String EXTRA_KEY_DESTINATION_OPEN = "jam_buka";
+    public static final String EXTRA_KEY_DESTINATION_LATITUDE = "lat";
+    public static final String EXTRA_KEY_DESTINATION_LONGITUDE = "long";
+
 
     private RecyclerView rv_fav;
     private SwipeRefreshLayout srlRefresh;
@@ -82,21 +87,26 @@ public class Destination_Favorite extends AppCompatActivity {
     }
 
     private void setupAdapter(List<Dest> list) {
-        adapter = new DestinationAdapterFav(list,Destination_Favorite.this, (destination) -> {
+        adapter = new DestinationAdapterFav(list,Destination_Favorite.this, (dest) -> {
             Intent intent = new Intent(Destination_Favorite.this, DestinationDetailActivity.class);
-            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
-            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNama_wisata());
-            intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, destination.getAlamat());
-            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, destination.getDeskripsi());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, destination.getHarga_tiket());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, destination.getProtokol());
-            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, destination.getJam_buka() + "-" + destination.getJam_tutup());
-            intent.putExtra(EXTRA_KEY_DESTINATION_RATING, destination.getRating());
-            intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, destination.getStatus());
-            intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, destination.getUlasan());
-            intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, destination.getFoto());
-            intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, destination.getVideo());
-            intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, destination.getJarak());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (dest.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
+            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, dest.getNama_wisata());
+            intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, dest.getAlamat());
+            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, dest.getDeskripsi());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, dest.getHarga_tiket());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, dest.getProtokol());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, dest.getJam_buka() + "-" + dest.getJam_tutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_RATING, dest.getRating());
+            intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, dest.getStatus());
+            intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, dest.getUlasan());
+            intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, dest.getFoto());
+            intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, dest.getVideo());
+            intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, dest.getJarak());
+            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, dest.getJam_tutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, dest.getJam_buka());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, dest.getLatitude());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, dest.getLongitude());
+
             startActivity(intent);
         });
 
@@ -112,21 +122,25 @@ public class Destination_Favorite extends AppCompatActivity {
     }
 
     private void setupAdapterOnRefresh(List<Dest> list) {
-        adapter = new DestinationAdapterFav(list,Destination_Favorite.this, (destination) -> {
+        adapter = new DestinationAdapterFav(list,Destination_Favorite.this, (dest) -> {
             Intent intent = new Intent(Destination_Favorite.this, DestinationDetailActivity.class);
-            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
-            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNama_wisata());
-            intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, destination.getAlamat());
-            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, destination.getDeskripsi());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, destination.getHarga_tiket());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, destination.getProtokol());
-            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, destination.getJam_buka() + "-" + destination.getJam_tutup());
-            intent.putExtra(EXTRA_KEY_DESTINATION_RATING, destination.getRating());
-            intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, destination.getStatus());
-            intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, destination.getUlasan());
-            intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, destination.getFoto());
-            intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, destination.getVideo());
-            intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, destination.getJarak());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (dest.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
+            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, dest.getNama_wisata());
+            intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, dest.getAlamat());
+            intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, dest.getDeskripsi());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, dest.getHarga_tiket());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, dest.getProtokol());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, dest.getJam_buka() + "-" + dest.getJam_tutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_RATING, dest.getRating());
+            intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, dest.getStatus());
+            intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, dest.getUlasan());
+            intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, dest.getFoto());
+            intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, dest.getVideo());
+            intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, dest.getJarak());
+            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, dest.getJam_tutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, dest.getJam_buka());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, dest.getLatitude());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, dest.getLongitude());
             startActivity(intent);
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

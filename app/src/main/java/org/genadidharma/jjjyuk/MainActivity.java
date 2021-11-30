@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doAsync() {
+
         destFavList.clear();
         destFavList = database.destDao().getAll();
 

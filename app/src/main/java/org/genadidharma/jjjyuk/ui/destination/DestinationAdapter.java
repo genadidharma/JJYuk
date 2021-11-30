@@ -3,6 +3,7 @@ package org.genadidharma.jjjyuk.ui.destination;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -93,13 +94,13 @@ public class DestinationAdapter extends RecyclerView.Adapter {
     }
 
     public void updateData(List<Destination> newDestinations,List<Dest> newDestFav){
-        List<Dest> destFav = new ArrayList<>();
-        destFav.addAll(newDestFav);
+//        List<Dest> destFav = new ArrayList<>();
+//        destFav.addAll(newDestFav);
 
         destinations.clear();
         destinations.addAll(newDestinations);
         favDestinations.clear();
-        favDestinations.addAll(destFav);
+        favDestinations.addAll(newDestFav);
         notifyDataSetChanged();
     }
 }
@@ -118,7 +119,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
-        ImageView iv_fav_img = itemView.findViewById(R.id.iv_fav_img);
+        ImageButton iv_fav_img = itemView.findViewById(R.id.iv_fav_img);
 
         Glide.with(itemView.getContext())
                 .load(destination.getFoto())
@@ -131,7 +132,8 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvStatus.setText(destination.getStatus());
 
         if (heart == true){
-            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
+//            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
+            iv_fav_img.setVisibility(View.GONE);
         }else if(heart == false){
             iv_fav_img.setVisibility(View.GONE);
         }
@@ -157,7 +159,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
-        ImageView iv_fav_vid = itemView.findViewById(R.id.iv_fav_vid);
+        ImageButton iv_fav_vid = itemView.findViewById(R.id.iv_fav_vid);
 
         Glide.with(itemView.getContext())
                 .load("https://img.youtube.com/vi/" + destination.getVideo() + "/0.jpg")
@@ -170,7 +172,8 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvStatus.setText(destination.getStatus());
 
         if (heart == true){
-            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
+//            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
+            iv_fav_vid.setVisibility(View.GONE);
         }else if(heart == false){
             iv_fav_vid.setVisibility(View.GONE);
         }
