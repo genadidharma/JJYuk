@@ -87,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         onRefresh();
 
         ImageButton btn_fav = findViewById(R.id.btn_to_fav);
+        srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
+        });
 
         btn_fav.setOnClickListener(new View.OnClickListener() {
             @Override
