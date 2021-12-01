@@ -18,15 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
 import org.genadidharma.jjjyuk.data.model.DestinationResponse;
 import org.genadidharma.jjjyuk.data.model.Destination;
-import org.genadidharma.jjjyuk.db.AppDatabase;
-import org.genadidharma.jjjyuk.db.Dest;
 import org.genadidharma.jjjyuk.networks.APIBuilder;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
-import org.genadidharma.jjjyuk.ui.destination.domain.Destination_Favorite;
+import org.genadidharma.jjjyuk.ui.destination.domain.DestinationFavoriteActivity;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_KEY_DESTINATION_ID = "if";
     public static final String EXTRA_KEY_DESTINATION_TYPE = "type";
     public static final String EXTRA_KEY_DESTINATION_NAME = "dest";
     public static final String EXTRA_KEY_DESTINATION_ADDRESS = "address";
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnRefresh;
     private DestinationAdapter destinationAdapter;
     private List<Destination> destinationList;
-    private List<Dest> destFavList;
-    AppDatabase database;
+    private List<Destination> destFavList;
+    AppDatabaseDest database;
     private DestinationAdapterFav adapter;
 
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         destinationList = new ArrayList<>();
         destFavList = new ArrayList<>();
 
-        database = AppDatabase.getInstance(this);
+        database = AppDatabaseDest.getInstance(this);
         destFavList = database.destDao().getAll();
 
         initLayout();
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         btn_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this , Destination_Favorite.class));
+                startActivity(new Intent(MainActivity.this , DestinationFavoriteActivity.class));
             }
         });
     }
@@ -126,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
                 destinationList = response.body() != null ? response.body().getDestinations() : null;
-                destinationAdapter.updateData(destinationList,destFavList);
+                listDestinationUpdateFavorite();
+                destinationAdapter.updateData(destinationList);
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAdapter(List<Destination> list) {
 
-        destinationAdapter = new DestinationAdapter(list,destFavList, (destination) -> {
+        destinationAdapter = new DestinationAdapter(list, (destination) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNamaWisata());
@@ -169,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, destination.getJamBuka());
             intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, destination.getLat());
             intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, destination.getJsonMemberLong());
+            intent.putExtra(EXTRA_KEY_DESTINATION_ID, destination.getId());
+
 
 
             startActivity(intent);
@@ -188,5 +191,23 @@ public class MainActivity extends AppCompatActivity {
     private void onRefresh() {
         srlRefresh.setOnRefreshListener(this::doAsync);
         btnRefresh.setOnClickListener((v) -> doAsync());
+    }
+
+    private List<Destination> listDestinationUpdateFavorite(){
+        for (int i = 0; i <destinationList.size() ; i++) {
+            for (int j = 0; j <destFavList.size() ; j++) {
+                if (destinationList.get(i).getId().equalsIgnoreCase(destFavList.get(j).getId())){
+                    destinationList.get(i).setFavorite(true);
+                    break;
+                }
+            }
+        }
+        return destinationList;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        doAsync();
     }
 }

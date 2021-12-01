@@ -20,8 +20,8 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.genadidharma.jjjyuk.MainActivity;
 import org.genadidharma.jjjyuk.R;
-import org.genadidharma.jjjyuk.db.AppDatabase;
-import org.genadidharma.jjjyuk.db.Dest;
+import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
+import org.genadidharma.jjjyuk.data.model.Destination;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class DestinationDetailActivity extends AppCompatActivity {
 
-    private String title, image, video, distance, description, time, address, price, status, protocol,jam_buka,jam_tutup;
+    private String title, image, video, distance, description, time, address, price, status, protocol,jam_buka,jam_tutup , id;
     private double rating , lat , longitude;
     private int type, review;
 
@@ -38,8 +38,8 @@ public class DestinationDetailActivity extends AppCompatActivity {
     private ShapeableImageView ivImage;
     private ImageView ivFgVideo, ivPlayVideo;
     private Toolbar toolbar;
-    List<Dest> dataList = new ArrayList<>();
-    AppDatabase database;
+    List<Destination> dataList = new ArrayList<>();
+    AppDatabaseDest database;
     private String jenis;
     boolean found = true;
     DestinationAdapterFav adapter;
@@ -49,7 +49,7 @@ public class DestinationDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination_detail);
-        database = AppDatabase.getInstance(this);
+        database = AppDatabaseDest.getInstance(this);
 
         initLayout();
         getIntentExtra();
@@ -59,7 +59,7 @@ public class DestinationDetailActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                List<Dest> dest = new ArrayList<>();
+                List<Destination> dest = new ArrayList<>();
                 dest = database.destDao().getAll();
                 if (database.destDao().getRowCount() == 0){
                     insertNewDestination();
@@ -67,7 +67,7 @@ public class DestinationDetailActivity extends AppCompatActivity {
                     autoRefresh();
                 }else{
                     for (int i = 0; i < database.destDao().getRowCount() ; i++) {
-                        if (dest.get(i).getNama_wisata().equalsIgnoreCase(title)) {
+                        if (dest.get(i).getNamaWisata().equalsIgnoreCase(title)) {
                             database.destDao().deleteOne(dest.get(i));
 
                             dest.clear();
@@ -133,12 +133,12 @@ public class DestinationDetailActivity extends AppCompatActivity {
     }
 
     private void initButtonFavorite(){
-        List<Dest> dest = new ArrayList<>();
+        List<Destination> dest = new ArrayList<>();
         ImageButton favoriteButton = findViewById(R.id.btn_fav);
         boolean foundFav = false;
         dest = database.destDao().getAll();
         for (int i = 0; i < database.destDao().getRowCount(); i++) {
-            if (dest.get(i).getNama_wisata().equalsIgnoreCase(title)){
+            if (dest.get(i).getNamaWisata().equalsIgnoreCase(title)){
                 favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
                 foundFav=true;
             }
@@ -181,39 +181,42 @@ public class DestinationDetailActivity extends AppCompatActivity {
         distance = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_DISTANCE);
         jam_buka = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_OPEN);
         jam_tutup = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_CLOSE);
+        id = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_ID);
         lat = getIntent().getDoubleExtra(MainActivity.EXTRA_KEY_DESTINATION_LATITUDE,0);
         longitude = getIntent().getDoubleExtra(MainActivity.EXTRA_KEY_DESTINATION_LONGITUDE,0);
 
     }
 
     private void insertNewDestination(){
-        Dest data = new Dest();
+        Destination data = new Destination();
         if (type == 0) {
             jenis = "gambar";
         } else if (type == 1) {
             jenis = "video";
         }
+        data.setId(id);
         data.setJenis(jenis);
         data.setFoto(image);
         data.setVideo(video);
-        data.setNama_wisata(title);
+        data.setNamaWisata(title);
         data.setDeskripsi(description);
-        data.setJam_buka(jam_buka);
-        data.setJam_tutup(jam_tutup);
-        data.setLatitude(lat);
-        data.setLongitude(longitude);
+        data.setJamBuka(jam_buka);
+        data.setJamTutup(jam_tutup);
+        data.setLat(lat);
+        data.setJsonMemberLong(longitude);
         data.setAlamat(address);
         data.setJarak(distance);
-        data.setHarga_tiket(price);
+        data.setHargaTiket(price);
         data.setRating(rating);
         data.setUlasan(review);
         data.setStatus(status);
         data.setProtokol(protocol);
+        data.setFavorite(true);
 
         database.destDao().insertDest(data);
-
         dataList.clear();
         dataList.addAll(database.destDao().getAll());
+        dataList.clear();
     }
 
     private void autoRefresh(){

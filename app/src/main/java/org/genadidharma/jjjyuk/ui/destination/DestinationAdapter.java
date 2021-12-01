@@ -15,7 +15,6 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.genadidharma.jjjyuk.R;
 import org.genadidharma.jjjyuk.data.model.Destination;
-import org.genadidharma.jjjyuk.db.Dest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +29,10 @@ public class DestinationAdapter extends RecyclerView.Adapter {
 
     private final OnDestinationClickListener destinationClickListener;
     private final List<Destination> destinations;
-    private final List<Dest> favDestinations;
 
-    public static boolean heart=false;
-
-    public DestinationAdapter(List<Destination> destinations,List<Dest> favDestinations, OnDestinationClickListener destinationClickListener) {
+    public DestinationAdapter(List<Destination> destinations, OnDestinationClickListener destinationClickListener) {
         this.destinations = destinations;
         this.destinationClickListener = destinationClickListener;
-        this.favDestinations = favDestinations;
     }
 
     @Override
@@ -70,19 +65,12 @@ public class DestinationAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        heart = false;
-        for (int i = 0; i < favDestinations.size(); i++) {
-            if (favDestinations.get(i).getNama_wisata().equalsIgnoreCase(destinations.get(position).getNamaWisata())) {
-                heart = true;
-                break;
-            }
-        }
         switch (destinations.get(position).getJenis()) {
             case KEY_IMAGE:
-                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position),heart, destinationClickListener);
+                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
                 break;
             case KEY_VIDEO:
-                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position),heart, destinationClickListener);
+                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
                 break;
             default:
         }
@@ -93,11 +81,9 @@ public class DestinationAdapter extends RecyclerView.Adapter {
         return destinations.size();
     }
 
-    public void updateData(List<Destination> newDestinations, List<Dest> newDestFav){
+    public void updateData(List<Destination> newDestinations){
         destinations.clear();
         destinations.addAll(newDestinations);
-        favDestinations.clear();
-        favDestinations.addAll(newDestFav);
         notifyDataSetChanged();
     }
 }
@@ -108,7 +94,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination,boolean heart, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -128,9 +114,9 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
 
-        if (heart == true){
-            iv_fav_img.setImageResource(R.drawable.ic_baseline_favorite_24);
-        }else if(heart == false){
+        if (destination.isFavorite() == true){
+            iv_fav_img.setVisibility(View.VISIBLE);
+        }else if(destination.isFavorite() == false){
             iv_fav_img.setVisibility(View.GONE);
         }
 
@@ -146,7 +132,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination,boolean heart, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
 
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
@@ -167,9 +153,9 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
 
-        if (heart == true){
+        if (destination.isFavorite() == true){
             iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
-        }else if(heart == false){
+        }else if(destination.isFavorite() == false){
             iv_fav_vid.setVisibility(View.GONE);
         }
 

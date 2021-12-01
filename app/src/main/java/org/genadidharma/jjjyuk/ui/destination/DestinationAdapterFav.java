@@ -16,7 +16,6 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.genadidharma.jjjyuk.R;
 import org.genadidharma.jjjyuk.data.model.Destination;
-import org.genadidharma.jjjyuk.db.Dest;
 
 import java.util.List;
 
@@ -28,16 +27,16 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
     public static final int LAYOUT_IMAGE = 0;
     public static final int LAYOUT_VIDEO = 1;
 
-    private final OnDestinationFavClick destinationClickListenerFav;
-    private final List<Dest> destinations;
+    private final OnDestinationClickListener destinationClickListener;
+    private final List<Destination> destinations;
     private Activity context;
 
 
 
-    public DestinationAdapterFav(List<Dest> destinations,Activity context, OnDestinationFavClick destinationClickListener) {
+    public DestinationAdapterFav(List<Destination> destinations,Activity context, OnDestinationClickListener destinationClickListener) {
         this.destinations = destinations;
         this.context = context;
-        this.destinationClickListenerFav = destinationClickListener;
+        this.destinationClickListener = destinationClickListener;
     }
 
     @Override
@@ -72,10 +71,10 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (destinations.get(position).getJenis()) {
             case KEY_IMAGE:
-                ((DestinationImageFavAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListenerFav);
+                ((DestinationImageFavAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
                 break;
             case KEY_VIDEO:
-                ((DestinationVideoFavAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListenerFav);
+                ((DestinationVideoFavAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
                 break;
             default:
         }
@@ -86,7 +85,7 @@ public class DestinationAdapterFav extends RecyclerView.Adapter {
         return destinations.size();
     }
 
-    public void updateData(List<Dest> newDestinations){
+    public void updateData(List<Destination> newDestinations){
         destinations.clear();
         destinations.addAll(newDestinations);
         notifyDataSetChanged();
@@ -99,7 +98,7 @@ class DestinationImageFavAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Dest destination, OnDestinationFavClick destinationClickListenerFav) {
+    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -112,8 +111,8 @@ class DestinationImageFavAdapterViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext())
                 .load(destination.getFoto())
                 .into(ivImage);
-        tvPrice.setText(destination.getHarga_tiket());
-        tvName.setText(destination.getNama_wisata());
+        tvPrice.setText(destination.getHargaTiket());
+        tvName.setText(destination.getNamaWisata());
         tvRating.setText(String.valueOf(destination.getRating()));
         tvReview.setText(itemView.getResources().getString(R.string.jumlah_ulasan, String.valueOf(destination.getUlasan())));
         tvPlace.setText(destination.getTempat());
@@ -123,7 +122,7 @@ class DestinationImageFavAdapterViewHolder extends RecyclerView.ViewHolder {
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListenerFav.onDestinationClickFav(destination));
+        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
     }
 }
 
@@ -133,7 +132,7 @@ class DestinationVideoFavAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Dest destination, OnDestinationFavClick destinationClickListenerFav) {
+    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -146,8 +145,8 @@ class DestinationVideoFavAdapterViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext())
                 .load("https://img.youtube.com/vi/" + destination.getVideo() + "/0.jpg")
                 .into(ivImage);
-        tvPrice.setText(destination.getHarga_tiket());
-        tvName.setText(destination.getNama_wisata());
+        tvPrice.setText(destination.getHargaTiket());
+        tvName.setText(destination.getNamaWisata());
         tvRating.setText(String.valueOf(destination.getRating()));
         tvReview.setText(itemView.getResources().getString(R.string.jumlah_ulasan, String.valueOf(destination.getUlasan())));
         tvPlace.setText(destination.getTempat());
@@ -156,6 +155,6 @@ class DestinationVideoFavAdapterViewHolder extends RecyclerView.ViewHolder {
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListenerFav.onDestinationClickFav(destination));
+        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
     }
 }

@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.genadidharma.jjjyuk.R;
-import org.genadidharma.jjjyuk.db.AppDatabase;
-import org.genadidharma.jjjyuk.db.Dest;
+import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
+import org.genadidharma.jjjyuk.data.model.Destination;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
@@ -41,8 +41,8 @@ public class DestinationFavoriteActivity extends AppCompatActivity {
 
     private RecyclerView rv_fav;
     private SwipeRefreshLayout srlRefresh;
-    private List<Dest> dest = new ArrayList<>();
-    AppDatabase database;
+    private List<Destination> dest = new ArrayList<>();
+    AppDatabaseDest database;
     private DestinationAdapterFav adapter;
 
     @Override
@@ -79,30 +79,30 @@ public class DestinationFavoriteActivity extends AppCompatActivity {
     }
 
     private void iniData() {
-        database = AppDatabase.getInstance(this);
+        database = AppDatabaseDest.getInstance(this);
         dest = database.destDao().getAll();
     }
 
-    private void setupAdapter(List<Dest> list) {
+    private void setupAdapter(List<Destination> list) {
         adapter = new DestinationAdapterFav(list, DestinationFavoriteActivity.this, (dest) -> {
             Intent intent = new Intent(DestinationFavoriteActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (dest.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
-            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, dest.getNama_wisata());
+            intent.putExtra(EXTRA_KEY_DESTINATION_NAME, dest.getNamaWisata());
             intent.putExtra(EXTRA_KEY_DESTINATION_ADDRESS, dest.getAlamat());
             intent.putExtra(EXTRA_KEY_DESTINATION_DESCRIPTION, dest.getDeskripsi());
-            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, dest.getHarga_tiket());
+            intent.putExtra(EXTRA_KEY_DESTINATION_PRICE, dest.getHargaTiket());
             intent.putExtra(EXTRA_KEY_DESTINATION_PROTOCOL, dest.getProtokol());
-            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, dest.getJam_buka() + "-" + dest.getJam_tutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_TIME, dest.getJamBuka() + "-" + dest.getJamTutup());
             intent.putExtra(EXTRA_KEY_DESTINATION_RATING, dest.getRating());
             intent.putExtra(EXTRA_KEY_DESTINATION_STATUS, dest.getStatus());
             intent.putExtra(EXTRA_KEY_DESTINATION_REVIEW, dest.getUlasan());
             intent.putExtra(EXTRA_KEY_DESTINATION_IMAGE, dest.getFoto());
             intent.putExtra(EXTRA_KEY_DESTINATION_VIDEO, dest.getVideo());
             intent.putExtra(EXTRA_KEY_DESTINATION_DISTANCE, dest.getJarak());
-            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, dest.getJam_tutup());
-            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, dest.getJam_buka());
-            intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, dest.getLatitude());
-            intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, dest.getLongitude());
+            intent.putExtra(EXTRA_KEY_DESTINATION_CLOSE, dest.getJamTutup());
+            intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, dest.getJamBuka());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, dest.getLat());
+            intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, dest.getJsonMemberLong());
 
             startActivity(intent);
         });
