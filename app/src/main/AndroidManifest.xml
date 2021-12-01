@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JJYuk">
         <activity
-            android:name=".ui.destination.domain.Destination_Favorite"
+            android:name=".ui.destination.domain.DestinationFavoriteActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"
