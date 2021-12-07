@@ -67,10 +67,10 @@ public class DestinationAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (destinations.get(position).getJenis()) {
             case KEY_IMAGE:
-                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
+                ((DestinationImageAdapterViewHolder) holder).bindItem(destinations.get(position), position, destinationClickListener);
                 break;
             case KEY_VIDEO:
-                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position), destinationClickListener);
+                ((DestinationVideoAdapterViewHolder) holder).bindItem(destinations.get(position), position, destinationClickListener);
                 break;
             default:
         }
@@ -81,9 +81,14 @@ public class DestinationAdapter extends RecyclerView.Adapter {
         return destinations.size();
     }
 
-    public void updateData(List<Destination> newDestinations){
+    public void updateData(List<Destination> newDestinations) {
         destinations.clear();
         destinations.addAll(newDestinations);
+        notifyDataSetChanged();
+    }
+
+    public void toggleFavorite(int position, boolean isFavorite) {
+        destinations.get(position).setFavorite(isFavorite);
         notifyDataSetChanged();
     }
 }
@@ -94,7 +99,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination, int position, OnDestinationClickListener destinationClickListener) {
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -102,7 +107,7 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
-        ImageButton iv_fav_img = itemView.findViewById(R.id.iv_fav_img);
+        ImageView iv_fav_img = itemView.findViewById(R.id.iv_fav);
 
         Glide.with(itemView.getContext())
                 .load(destination.getFoto())
@@ -114,15 +119,15 @@ class DestinationImageAdapterViewHolder extends RecyclerView.ViewHolder {
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
 
-        if (destination.isFavorite() == true){
+        if (destination.isFavorite()) {
             iv_fav_img.setVisibility(View.VISIBLE);
-        }else if(destination.isFavorite() == false){
+        } else {
             iv_fav_img.setVisibility(View.GONE);
         }
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
+        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination, position));
     }
 }
 
@@ -132,7 +137,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bindItem(Destination destination, OnDestinationClickListener destinationClickListener) {
+    void bindItem(Destination destination, int position, OnDestinationClickListener destinationClickListener) {
 
         ShapeableImageView ivImage = itemView.findViewById(R.id.iv_image);
         TextView tvPrice = itemView.findViewById(R.id.tv_price);
@@ -141,7 +146,7 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvReview = itemView.findViewById(R.id.tv_review);
         TextView tvPlace = itemView.findViewById(R.id.tv_place);
         TextView tvStatus = itemView.findViewById(R.id.tv_status);
-        ImageButton iv_fav_vid = itemView.findViewById(R.id.iv_fav_vid);
+        ImageView iv_fav_vid = itemView.findViewById(R.id.iv_fav);
 
         Glide.with(itemView.getContext())
                 .load("https://img.youtube.com/vi/" + destination.getVideo() + "/0.jpg")
@@ -153,15 +158,15 @@ class DestinationVideoAdapterViewHolder extends RecyclerView.ViewHolder {
         tvPlace.setText(destination.getTempat());
         tvStatus.setText(destination.getStatus());
 
-        if (destination.isFavorite() == true){
-            iv_fav_vid.setImageResource(R.drawable.ic_baseline_favorite_24);
-        }else if(destination.isFavorite() == false){
+        if (destination.isFavorite()) {
+            iv_fav_vid.setVisibility(View.VISIBLE);
+        } else {
             iv_fav_vid.setVisibility(View.GONE);
         }
 
         tvStatus.setEnabled(destination.getStatus().equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
 
-        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination));
+        itemView.setOnClickListener(view -> destinationClickListener.onDestinationClick(destination, position));
     }
 }
 

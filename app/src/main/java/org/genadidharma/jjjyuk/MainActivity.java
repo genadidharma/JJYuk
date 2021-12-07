@@ -1,29 +1,26 @@
 package org.genadidharma.jjjyuk;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
-import org.genadidharma.jjjyuk.data.model.DestinationResponse;
 import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.data.model.DestinationResponse;
+import org.genadidharma.jjjyuk.db.AppDatabaseDest;
 import org.genadidharma.jjjyuk.networks.APIBuilder;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
-import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationDetailActivity;
 import org.genadidharma.jjjyuk.ui.destination.domain.DestinationFavoriteActivity;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
@@ -37,7 +34,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_KEY_DESTINATION_ID = "if";
+    public static final String EXTRA_KEY_DESTINATION_ID = "id";
     public static final String EXTRA_KEY_DESTINATION_TYPE = "type";
     public static final String EXTRA_KEY_DESTINATION_NAME = "dest";
     public static final String EXTRA_KEY_DESTINATION_ADDRESS = "address";
@@ -55,20 +52,22 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_OPEN = "jam_buka";
     public static final String EXTRA_KEY_DESTINATION_LATITUDE = "lat";
     public static final String EXTRA_KEY_DESTINATION_LONGITUDE = "long";
+    public static final String EXTRA_KEY_DESTINATION_FAVORITE = "favorite";
+    public static final String EXTRA_KEY_DESTINATION_FAVORITE_POSITION = "position";
+    public static final String EXTRA_KEY_DESTINATION_FAVORITE_STATUS = "favorite_status";
 
-
+    public static final int RESULT_FAVORITE_DETAIL = 333;
+    public static final int RESULT_FAVORITE_ACTIVITY = 334;
 
     private SwipeRefreshLayout srlRefresh;
-    private ImageView iv_fav_img , iv_fav_vid;
     private RecyclerView rvDestination;
     private LinearLayout llError;
     private Button btnRefresh;
+    private ImageButton btnFav;
     private DestinationAdapter destinationAdapter;
     private List<Destination> destinationList;
-    private List<Destination> destFavList;
-    AppDatabaseDest database;
-    private DestinationAdapterFav adapter;
-
+    private AppDatabaseDest database;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,49 +75,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         destinationList = new ArrayList<>();
-        destFavList = new ArrayList<>();
 
         database = AppDatabaseDest.getInstance(this);
-        destFavList = database.destDao().getAll();
 
         initLayout();
         setupAdapter(destinationList);
         doAsync();
         onRefresh();
 
-        ImageButton btn_fav = findViewById(R.id.btn_to_fav);
-        srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
-            }
-        });
+        btnFav.setOnClickListener(v -> resultLauncher.launch(new Intent(MainActivity.this, DestinationFavoriteActivity.class)));
 
-        btn_fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this , DestinationFavoriteActivity.class));
-            }
-        });
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_FAVORITE_DETAIL) {
+                        if (result.getData() != null) {
+                            boolean isFavorite = result.getData().getBooleanExtra(EXTRA_KEY_DESTINATION_FAVORITE_STATUS, false);
+                            int position = result.getData().getIntExtra(EXTRA_KEY_DESTINATION_FAVORITE_POSITION, 0);
+                            destinationAdapter.toggleFavorite(position, isFavorite);
+                        }
+                    }else if(result.getResultCode() == RESULT_FAVORITE_ACTIVITY){
+                        doAsync();
+                    }
+                });
     }
 
     private void initLayout() {
         srlRefresh = findViewById(R.id.srl_refresh);
+        btnFav = findViewById(R.id.btn_to_fav);
         rvDestination = findViewById(R.id.rv_destination);
         llError = findViewById(R.id.ll_error);
         btnRefresh = findViewById(R.id.btn_refresh);
-        iv_fav_img = findViewById(R.id.iv_fav_img);
-        iv_fav_vid = findViewById(R.id.iv_fav_vid);
     }
 
     private void doAsync() {
-
-        destFavList.clear();
-        destFavList = database.destDao().getAll();
-
         srlRefresh.setRefreshing(true);
         APIBuilder apiBuilder = new APIBuilder();
         Call<DestinationResponse> call = apiBuilder.service.getDestinations();
@@ -126,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<DestinationResponse> call, @NonNull Response<DestinationResponse> response) {
                 destinationList = response.body() != null ? response.body().getDestinations() : null;
-                listDestinationUpdateFavorite();
+                markFavoriteData();
                 destinationAdapter.updateData(destinationList);
+
                 rvDestination.setVisibility(View.VISIBLE);
                 llError.setVisibility(View.GONE);
                 srlRefresh.setRefreshing(false);
-
 
                 if (destinationList.size() == 0) {
                     llError.setVisibility(View.VISIBLE);
@@ -141,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<DestinationResponse> call, @NonNull Throwable t) {
-                Log.e("Error Message", t.getMessage());
                 rvDestination.setVisibility(View.GONE);
                 llError.setVisibility(View.VISIBLE);
                 srlRefresh.setRefreshing(false);
@@ -151,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAdapter(List<Destination> list) {
 
-        destinationAdapter = new DestinationAdapter(list, (destination) -> {
+        destinationAdapter = new DestinationAdapter(list, (destination, position) -> {
             Intent intent = new Intent(MainActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (destination.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, destination.getNamaWisata());
@@ -171,10 +159,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, destination.getLat());
             intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, destination.getJsonMemberLong());
             intent.putExtra(EXTRA_KEY_DESTINATION_ID, destination.getId());
+            intent.putExtra(EXTRA_KEY_DESTINATION_FAVORITE, destination.isFavorite());
+            intent.putExtra(EXTRA_KEY_DESTINATION_FAVORITE_POSITION, position);
 
-
-
-            startActivity(intent);
+            resultLauncher.launch(intent);
         });
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
@@ -193,21 +181,16 @@ public class MainActivity extends AppCompatActivity {
         btnRefresh.setOnClickListener((v) -> doAsync());
     }
 
-    private List<Destination> listDestinationUpdateFavorite(){
-        for (int i = 0; i <destinationList.size() ; i++) {
-            for (int j = 0; j <destFavList.size() ; j++) {
-                if (destinationList.get(i).getId().equalsIgnoreCase(destFavList.get(j).getId())){
-                    destinationList.get(i).setFavorite(true);
+    private void markFavoriteData() {
+        List<String> favoritesIds = database.destDao().getFavoriteIds();
+
+        for (String favoriteId : favoritesIds) {
+            for (Destination destination : destinationList) {
+                if (destination.getId().equals(favoriteId)) {
+                    destination.setFavorite(true);
                     break;
                 }
             }
         }
-        return destinationList;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        doAsync();
     }
 }

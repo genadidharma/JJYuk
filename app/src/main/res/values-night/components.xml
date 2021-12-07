@@ -85,9 +85,9 @@
         <item name="android:paddingBottom">@dimen/sm_margin_padding</item>
     </style>
 
-    <!--    Destination Map Button-->
-    <style name="Button.Text.Map" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textAppearance">@style/TextAppearance.JJYuk.TextSM.Medium</item>
+    <!--    Refresh Map Button-->
+    <style name="Button.Text.Refresh" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.JJYuk.TextBase.Medium</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:textAllCaps">false</item>
@@ -97,6 +97,13 @@
     <style name="Button.Icon.Favorite" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:padding">@dimen/sm_margin_padding</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!--    Favorite Icon-->
+    <style name="ImageView.Icon.Favorite" parent="">
+        <item name="android:background">@drawable/bg_circle_favorite</item>
+        <item name="android:padding">@dimen/xs_margin_padding</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
