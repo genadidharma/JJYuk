@@ -31,6 +31,9 @@
     <!--    Lottie Size-->
     <dimen name="lottie_not_found_size">300dp</dimen>
 
+    <!--    MapView Height-->
+    <dimen name="map_height">150dp</dimen>
+
     <!--    Destination Detail Image-->
     <dimen name="image_destination_detail_height">320dp</dimen>
 
