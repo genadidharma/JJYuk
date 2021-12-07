@@ -39,7 +39,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_refresh1"
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -51,8 +51,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_destination_fav"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/sm_margin_padding" />
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:id="@+id/ll_error"
@@ -79,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/destination_not_found_desc"
+                    android:text="@string/destination_favorite_not_found_desc"
                     android:textAppearance="@style/TextAppearance.JJYuk.TextLG.Medium" />
 
                 <TextView
@@ -88,19 +87,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sm_margin_padding"
                     android:gravity="center"
-                    android:text="@string/destination_not_found_description_desc"
+                    android:text="@string/destination_favorite_not_found_description_desc"
                     android:textAppearance="@style/TextAppearance.JJYuk.TextXS.Regular"
                     android:textColor="@color/neutral_70" />
 
                 <Button
-                    android:id="@+id/btn_refresh"
-                    style="@style/Button.Text.Map"
+                    android:id="@+id/btn_back"
+                    style="@style/Button.Text.Refresh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xs_margin_padding"
                     android:layout_marginTop="@dimen/xl_margin_padding"
-                    android:drawableLeft="@drawable/ic_refresh_24dp"
-                    android:text="@string/refresh_button"
+                    android:drawableLeft="@drawable/ic_remove_red_eye_24dp"
+                    android:text="@string/see_button"
                     app:layout_constraintStart_toEndOf="@+id/tv_distance"
                     app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 

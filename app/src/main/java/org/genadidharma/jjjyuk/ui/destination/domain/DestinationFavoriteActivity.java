@@ -7,19 +7,24 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
+import org.genadidharma.jjjyuk.MainActivity;
 import org.genadidharma.jjjyuk.R;
-import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
+import org.genadidharma.jjjyuk.db.AppDatabaseDest;
 import org.genadidharma.jjjyuk.data.model.Destination;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
-import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 import org.genadidharma.jjjyuk.util.GridSpacingItemDecoration;
+import org.genadidharma.jjjyuk.util.ListSpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DestinationFavoriteActivity extends AppCompatActivity {
 
+    public static final String EXTRA_KEY_DESTINATION_ID = "id";
     public static final String EXTRA_KEY_DESTINATION_TYPE = "type";
     public static final String EXTRA_KEY_DESTINATION_NAME = "dest";
     public static final String EXTRA_KEY_DESTINATION_ADDRESS = "address";
@@ -37,54 +42,69 @@ public class DestinationFavoriteActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_DESTINATION_OPEN = "jam_buka";
     public static final String EXTRA_KEY_DESTINATION_LATITUDE = "lat";
     public static final String EXTRA_KEY_DESTINATION_LONGITUDE = "long";
-
+    public static final String EXTRA_KEY_DESTINATION_FAVORITE = "favorite";
 
     private RecyclerView rv_fav;
     private SwipeRefreshLayout srlRefresh;
+    private LinearLayout llError;
+    private Button btnBack;
     private List<Destination> dest = new ArrayList<>();
-    AppDatabaseDest database;
-    private DestinationAdapterFav adapter;
+    private AppDatabaseDest database;
+    private DestinationAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination_favorite);
 
-        initLayout();
-        iniData();
-        setupAdapter(dest);
+        database = AppDatabaseDest.getInstance(this);
+        dest = new ArrayList<>();
 
-        srlRefresh = findViewById(R.id.srl_refresh1);
+        initLayout();
+        setupAdapter(dest);
+        iniData();
+
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initLayout();
                 iniData();
                 adapter.updateData(dest);
                 srlRefresh.setRefreshing(false);
             }
         });
+        btnBack.setOnClickListener((view -> {
+            finish();
+        }));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initLayout();
         iniData();
         adapter.updateData(dest);
     }
 
     private void initLayout() {
         rv_fav = findViewById(R.id.rv_destination_fav);
+        srlRefresh = findViewById(R.id.srl_refresh);
+        llError = findViewById(R.id.ll_error);
+        btnBack = findViewById(R.id.btn_back);
     }
 
     private void iniData() {
-        database = AppDatabaseDest.getInstance(this);
         dest = database.destDao().getAll();
+
+        if (dest.size() == 0) {
+            llError.setVisibility(View.VISIBLE);
+            rv_fav.setVisibility(View.GONE);
+        } else {
+            llError.setVisibility(View.GONE);
+            rv_fav.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupAdapter(List<Destination> list) {
-        adapter = new DestinationAdapterFav(list, DestinationFavoriteActivity.this, (dest) -> {
+        adapter = new DestinationAdapter(list, (dest, position) -> {
             Intent intent = new Intent(DestinationFavoriteActivity.this, DestinationDetailActivity.class);
             intent.putExtra(EXTRA_KEY_DESTINATION_TYPE, (dest.getJenis().equals(DestinationAdapter.KEY_IMAGE)) ? DestinationAdapter.LAYOUT_IMAGE : DestinationAdapter.LAYOUT_VIDEO);
             intent.putExtra(EXTRA_KEY_DESTINATION_NAME, dest.getNamaWisata());
@@ -103,19 +123,31 @@ public class DestinationFavoriteActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_KEY_DESTINATION_OPEN, dest.getJamBuka());
             intent.putExtra(EXTRA_KEY_DESTINATION_LATITUDE, dest.getLat());
             intent.putExtra(EXTRA_KEY_DESTINATION_LONGITUDE, dest.getJsonMemberLong());
+            intent.putExtra(EXTRA_KEY_DESTINATION_ID, dest.getId());
+            intent.putExtra(EXTRA_KEY_DESTINATION_FAVORITE, dest.isFavorite());
 
             startActivity(intent);
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_fav.setLayoutManager(layoutManager);
-        rv_fav.addItemDecoration(new GridSpacingItemDecoration(
-                1,
-                getResources().getDimensionPixelSize(R.dimen.sm_margin_padding),
-                true,
-                0));
+        rv_fav.addItemDecoration(new ListSpacingItemDecoration(
+                getResources().getDimensionPixelSize(R.dimen.lg_margin_padding),
+                getResources().getDimensionPixelSize(R.dimen.lg_margin_padding)
+        ));
 
         rv_fav.setAdapter(adapter);
     }
 
+    private void sendFavoriteStatus() {
+        Intent intent = new Intent();
+        setResult(MainActivity.RESULT_FAVORITE_ACTIVITY, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        sendFavoriteStatus();
+        super.onBackPressed();
+    }
 }
