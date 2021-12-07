@@ -15,4 +15,11 @@
     <string name="destination_not_found_description_desc">Coba cek koneksi internetmu, lalu refresh halaman ini atau buka ulang aplikasi</string>
     <string name="placeholder_map">Peta</string>
     <string name="mapbox_access_token">YOUR_MAPBOX_ACCESS_TOKEN</string>
+    <string name="desc_favorite_button">Favorite Button</string>
+    <string name="desc_24_hour_open">24 Jam</string>
+    <string name="destination_favorite_not_found_desc">Tidak ada Destinasi Favorit</string>
+    <string name="destination_favorite_not_found_description_desc">Tambahkan dulu Destinasi Wisata ke Favorit untuk melihat halaman ini</string>
+    <string name="see_button">Lihat-lihat Destinasi</string>
+    <string name="add_to_favorite_message"><b>%1$s</b> ditambahkan ke Favorit</string>
+    <string name="remove_from_favorite_message"><b>%1$s</b> dihapus dari Favorit</string>
 </resources>

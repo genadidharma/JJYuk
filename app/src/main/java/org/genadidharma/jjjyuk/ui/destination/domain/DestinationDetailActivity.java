@@ -4,22 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.mapbox.geojson.Point;
+import com.google.android.material.snackbar.Snackbar;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.constants.Style;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -27,147 +25,66 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import org.genadidharma.jjjyuk.MainActivity;
 import org.genadidharma.jjjyuk.R;
-import org.genadidharma.jjjyuk.data.model.AppDatabaseDest;
 import org.genadidharma.jjjyuk.data.model.Destination;
+import org.genadidharma.jjjyuk.db.AppDatabaseDest;
 import org.genadidharma.jjjyuk.ui.destination.DestinationAdapter;
-import org.genadidharma.jjjyuk.ui.destination.DestinationAdapterFav;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class DestinationDetailActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener {
 
     private String title, image, video, distance, description, time, address, price, status, protocol, jam_buka, jam_tutup, id;
-    private double rating, lat, longitude;
-    private int type, review;
+    private double rating, lat, lng;
+    private int position, type, review;
+    private boolean isFavorite;
 
-    private TextView tvTitle, tvPrice, tvDistance, tvRating, tvReview, tvAddress, tvTime, tvStatus, tvProtocol, tvDescription;
+    private TextView tvTitle, tvPrice, tvRating, tvReview, tvAddress, tvTime, tvStatus, tvProtocol, tvDescription;
     private MapView mvMap;
     private ShapeableImageView ivImage;
     private ImageView ivFgVideo, ivPlayVideo;
+    private FloatingActionButton fabFavorite;
     private Toolbar toolbar;
-    List<Destination> dataList = new ArrayList<>();
-    AppDatabaseDest database;
-    private String jenis;
-    boolean found = true;
 
-    MapboxMap map;
+    private AppDatabaseDest database;
+    private MapboxMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
+        database = AppDatabaseDest.getInstance(this);
 
         setContentView(R.layout.activity_destination_detail);
 
-        database = AppDatabaseDest.getInstance(this);
-
         initLayout();
         getIntentExtra();
-        initButtonFavorite();
-
-        mvMap.onCreate(savedInstanceState);
-        mvMap.getMapAsync(this);
-
-        ImageButton favoriteButton = findViewById(R.id.btn_fav);
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Destination> dest = new ArrayList<>();
-                dest = database.destDao().getAll();
-                if (database.destDao().getRowCount() == 0) {
-                    insertNewDestination();
-                    favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                    autoRefresh();
-                } else {
-                    for (int i = 0; i < database.destDao().getRowCount(); i++) {
-                        if (dest.get(i).getNamaWisata().equalsIgnoreCase(title)) {
-                            database.destDao().deleteOne(dest.get(i));
-
-                            dest.clear();
-                            found = false;
-                            favoriteButton.setImageResource(R.drawable.ic_favorite_border_24dp);
-                            autoRefresh();
-                            break;
-                        }
-                    }
-                    if (found == true) {
-                        insertNewDestination();
-                        favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                        autoRefresh();
-                    }
-                }
-            }
-        });
-
-
-        if (type == DestinationAdapter.LAYOUT_IMAGE) {
-            ivFgVideo.setVisibility(View.GONE);
-            ivPlayVideo.setVisibility(View.GONE);
-            ivImage.setClickable(false);
-        } else {
-            ivImage.setClickable(true);
-        }
-
-        Glide
-                .with(getApplicationContext())
-                .load(type == DestinationAdapter.LAYOUT_IMAGE ? image : "https://img.youtube.com/vi/" + video + "/0.jpg")
-                .into(ivImage);
-        tvTitle.setText(title);
-        tvReview.setText(getResources().getString(R.string.jumlah_ulasan, String.valueOf(review)));
-        tvStatus.setText(status);
-        tvProtocol.setText(protocol);
-        tvTime.setText(time);
-        tvPrice.setText(price);
-        tvDescription.setText(description);
-        tvAddress.setText(address);
-        tvDistance.setText(distance);
-        tvStatus.setText(status);
-        tvRating.setText(String.valueOf(rating));
-
-        tvStatus.setEnabled(status.equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
-
-        if (ivImage.isClickable()) {
-            ivImage.setOnClickListener(view -> {
-                Intent intent = new Intent(DestinationDetailActivity.this, DestinationVideoActivity.class);
-                intent.putExtra(MainActivity.EXTRA_KEY_DESTINATION_VIDEO, video);
-                startActivity(intent);
-            });
-        }
-
-        toolbar.setNavigationOnClickListener(view -> {
-            finish();
-        });
+        initData(savedInstanceState);
+        toggleFavoriteButton();
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    private void initButtonFavorite() {
-        List<Destination> dest = new ArrayList<>();
-        ImageButton favoriteButton = findViewById(R.id.btn_fav);
-        boolean foundFav = false;
-        dest = database.destDao().getAll();
-        for (int i = 0; i < database.destDao().getRowCount(); i++) {
-            if (dest.get(i).getNamaWisata().equalsIgnoreCase(title)) {
-                favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                foundFav = true;
+    private void toggleFavoriteButton() {
+        fabFavorite.setOnClickListener(v -> {
+            if (isFavorite) {
+                database.destDao().deleteDestination(id);
+                fabFavorite.setImageResource(R.drawable.ic_favorite_border_24dp);
+                Snackbar.make(findViewById(R.id.fl_parent), getResources().getString(R.string.remove_from_favorite_message, String.valueOf(title)), Snackbar.LENGTH_SHORT)
+                        .show();
+                isFavorite = false;
+            } else {
+                insertDestinationToDB();
+                fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+                Snackbar.make(findViewById(R.id.fl_parent), getResources().getString(R.string.add_to_favorite_message, String.valueOf(title)), Snackbar.LENGTH_SHORT)
+                        .show();
+                isFavorite = true;
             }
-        }
-        if (foundFav == false) {
-            favoriteButton.setImageResource(R.drawable.ic_favorite_border_24dp);
-        }
+        });
     }
 
     private void initLayout() {
         tvTitle = findViewById(R.id.tv_title);
         tvAddress = findViewById(R.id.tv_address);
-        tvDistance = findViewById(R.id.tv_distance);
         tvDescription = findViewById(R.id.tv_description);
         tvPrice = findViewById(R.id.tv_price);
         tvProtocol = findViewById(R.id.tv_health_safety_protocol);
@@ -180,9 +97,11 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
         ivFgVideo = findViewById(R.id.iv_fg_video);
         ivPlayVideo = findViewById(R.id.iv_play_video);
         toolbar = findViewById(R.id.toolbar);
+        fabFavorite = findViewById(R.id.fab_favorite);
     }
 
     private void getIntentExtra() {
+        position = getIntent().getIntExtra(MainActivity.EXTRA_KEY_DESTINATION_FAVORITE_POSITION, -1);
         type = getIntent().getIntExtra(MainActivity.EXTRA_KEY_DESTINATION_TYPE, -1);
         title = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_NAME);
         address = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_ADDRESS);
@@ -200,19 +119,63 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
         jam_tutup = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_CLOSE);
         id = getIntent().getStringExtra(MainActivity.EXTRA_KEY_DESTINATION_ID);
         lat = getIntent().getDoubleExtra(MainActivity.EXTRA_KEY_DESTINATION_LATITUDE, 0);
-        longitude = getIntent().getDoubleExtra(MainActivity.EXTRA_KEY_DESTINATION_LONGITUDE, 0);
-
+        lng = getIntent().getDoubleExtra(MainActivity.EXTRA_KEY_DESTINATION_LONGITUDE, 0);
+        isFavorite = getIntent().getBooleanExtra(MainActivity.EXTRA_KEY_DESTINATION_FAVORITE, false);
     }
 
-    private void insertNewDestination() {
-        Destination data = new Destination();
-        if (type == 0) {
-            jenis = "gambar";
-        } else if (type == 1) {
-            jenis = "video";
+    private void initData(Bundle savedInstanceState) {
+        if (type == DestinationAdapter.LAYOUT_IMAGE) {
+            ivFgVideo.setVisibility(View.GONE);
+            ivPlayVideo.setVisibility(View.GONE);
+            ivImage.setClickable(false);
+        } else {
+            ivImage.setClickable(true);
         }
+
+        Glide
+                .with(getApplicationContext())
+                .load(type == DestinationAdapter.LAYOUT_IMAGE ? image : "https://img.youtube.com/vi/" + video + "/0.jpg")
+                .into(ivImage);
+        tvTitle.setText(title);
+        tvReview.setText(getResources().getString(R.string.jumlah_ulasan, String.valueOf(review)));
+        tvStatus.setText(status);
+        tvProtocol.setText(protocol);
+        if (!jam_buka.equals(jam_tutup)) {
+            tvTime.setText(time);
+        } else {
+            tvTime.setText(R.string.desc_24_hour_open);
+        }
+        tvPrice.setText(price);
+        tvDescription.setText(description);
+        tvAddress.setText(address);
+        tvStatus.setText(status);
+        tvRating.setText(String.valueOf(rating));
+        tvStatus.setEnabled(status.equalsIgnoreCase(DestinationAdapter.KEY_OPEN));
+        if (isFavorite) {
+            fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+        } else {
+            fabFavorite.setImageResource(R.drawable.ic_favorite_border_24dp);
+        }
+
+        mvMap.onCreate(savedInstanceState);
+        mvMap.getMapAsync(this);
+
+        if (ivImage.isClickable()) {
+            ivImage.setOnClickListener(view -> {
+                Intent intent = new Intent(DestinationDetailActivity.this, DestinationVideoActivity.class);
+                intent.putExtra(MainActivity.EXTRA_KEY_DESTINATION_VIDEO, video);
+                startActivity(intent);
+            });
+        }
+
+        toolbar.setNavigationOnClickListener(view -> sendFavoriteStatus());
+    }
+
+    private void insertDestinationToDB() {
+        Destination data = new Destination();
+
         data.setId(id);
-        data.setJenis(jenis);
+        data.setJenis(type == 0 ? "gambar" : "video");
         data.setFoto(image);
         data.setVideo(video);
         data.setNamaWisata(title);
@@ -220,7 +183,7 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
         data.setJamBuka(jam_buka);
         data.setJamTutup(jam_tutup);
         data.setLat(lat);
-        data.setJsonMemberLong(longitude);
+        data.setJsonMemberLong(lng);
         data.setAlamat(address);
         data.setJarak(distance);
         data.setHargaTiket(price);
@@ -231,20 +194,18 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
         data.setFavorite(true);
 
         database.destDao().insertDest(data);
-        dataList.clear();
-        dataList.addAll(database.destDao().getAll());
-        dataList.clear();
     }
 
-    private void autoRefresh() {
+    private void sendFavoriteStatus() {
+        Intent intent = new Intent();
+        intent.putExtra(MainActivity.EXTRA_KEY_DESTINATION_FAVORITE_POSITION, position);
+        intent.putExtra(MainActivity.EXTRA_KEY_DESTINATION_FAVORITE_STATUS, isFavorite);
+        setResult(MainActivity.RESULT_FAVORITE_DETAIL, intent);
         finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
     }
 
     private void addMapMarker() {
-        LatLng location = new LatLng(lat, longitude);
+        LatLng location = new LatLng(lat, lng);
         map.addMarker(new MarkerOptions().position(location));
         map.setCameraPosition(
                 new CameraPosition.Builder()
@@ -254,10 +215,9 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
     }
 
     @Override
-    public void onMapClick(@NonNull LatLng point) {
-        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, longitude);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        startActivity(intent);
+    public void onBackPressed() {
+        sendFavoriteStatus();
+        super.onBackPressed();
     }
 
     @Override
@@ -266,6 +226,13 @@ public class DestinationDetailActivity extends AppCompatActivity implements OnMa
         map.addOnMapClickListener(this);
 
         addMapMarker();
+    }
+
+    @Override
+    public void onMapClick(@NonNull LatLng point) {
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
 
     @Override
