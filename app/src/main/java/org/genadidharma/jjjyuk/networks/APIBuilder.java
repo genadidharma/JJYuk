@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIBuilder {
 
-    private Gson gson = new GsonBuilder()
+    private final Gson gson = new GsonBuilder()
             .setLenient()
             .create();
 
-    private Retrofit retrofit = new Retrofit.Builder()
+    private final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://jjyuk-api.herokuapp.com")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
