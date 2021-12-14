@@ -73,6 +73,7 @@ public class DestinationFavoriteActivity extends AppCompatActivity {
             }
         });
         btnBack.setOnClickListener((view -> {
+            sendFavoriteStatus();
             finish();
         }));
     }
